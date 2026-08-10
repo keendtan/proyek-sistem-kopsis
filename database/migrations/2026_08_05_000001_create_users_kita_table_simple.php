@@ -13,12 +13,16 @@ return new class extends Migration
     {
         if (! Schema::hasTable('users_kita')) {
             Schema::create('users_kita', function (Blueprint $table) {
-                $table->id();
+                $table->string('id', 36)->primary();
                 $table->string('username')->unique();
                 $table->string('password');
                 $table->string('email')->unique();
                 $table->string('role')->default('user');
                 $table->timestamps();
+                $table->softDeletes();
+                $table->string('created_by', 36)->nullable();
+                $table->string('updated_by', 36)->nullable();
+                $table->string('deleted_by', 36)->nullable();
             });
 
             return;
