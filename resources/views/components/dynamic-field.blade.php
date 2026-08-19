@@ -54,6 +54,20 @@
             @if($disabled) disabled @endif>
         @break
 
+    @case('file')
+        <input type="file" name="{{ $fieldName }}" id="{{ $id }}" class="{{ $class }}" placeholder="{{ $placeholder }}"
+            @if($required) required @endif
+            @if($disabled) disabled @endif
+            @if(!$multiple) accept="{{ $field['accept'] ?? 'image/*' }}" @endif
+            @if($multiple) multiple @endif>
+        @if(!empty($value))
+            <div class="mt-2">
+                @php $url = asset(isset($field['storage_path']) ? $field['storage_path'].'/'.$value : 'storage/barang/'.$value); @endphp
+                <a href="{{ $url }}" target="_blank">Lihat file saat ini</a>
+            </div>
+        @endif
+        @break
+
     @default
         <input type="text" name="{{ $fieldName }}" id="{{ $id }}" class="{{ $class }}" value="{{ $value }}" placeholder="{{ $placeholder }}"
             @if($required) required @endif

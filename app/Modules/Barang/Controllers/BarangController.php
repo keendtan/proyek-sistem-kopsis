@@ -39,7 +39,7 @@ class BarangController extends Controller
 		$ref_kategori = Kategori::all()->pluck('created_by','id');
 		
 		$data['forms'] = array(
-			'gambar' => ['label' => 'Gambar', 'type' => 'text', 'value' => old("gambar"), 'required' => false],
+			'gambar' => ['label' => 'Gambar', 'type' => 'file', 'value' => old("gambar"), 'required' => false],
 			'harga' => ['label' => 'Harga', 'type' => 'text', 'value' => old("harga"), 'required' => true],
 			'kategori_id' => ['label' => 'Kategori Id', 'type' => 'select', 'value' => old("kategori_id"), 'required' => true, 'options' => $ref_kategori->all(), 'class' => 'select2'],
 			'nama' => ['label' => 'Nama', 'type' => 'text', 'value' => old("nama"), 'required' => true],
@@ -54,7 +54,7 @@ class BarangController extends Controller
 	function store(Request $request)
 	{
 		$this->validate($request, [
-			'gambar' => 'required',
+			'gambar' => 'nullable|image|max:2048',
 			'harga' => 'required',
 			'kategori_id' => 'required',
 			'nama' => 'required',
@@ -63,7 +63,12 @@ class BarangController extends Controller
 		]);
 
 		$barang = new Barang();
-		$barang->gambar = $request->input("gambar");
+		if ($request->hasFile('gambar')) {
+			$path = $request->file('gambar')->store('barang', 'public');
+			$barang->gambar = basename($path);
+		} else {
+			$barang->gambar = $request->input('gambar');
+		}
 		$barang->harga = $request->input("harga");
 		$barang->kategori_id = $request->input("kategori_id");
 		$barang->nama = $request->input("nama");
@@ -93,7 +98,7 @@ class BarangController extends Controller
 		$ref_kategori = Kategori::all()->pluck('created_by','id');
 		
 		$data['forms'] = array(
-			'gambar' => ['label' => 'Gambar', 'type' => 'text', 'value' => $barang->gambar, 'required' => false, 'id' => 'gambar'],
+			'gambar' => ['label' => 'Gambar', 'type' => 'file', 'value' => $barang->gambar, 'required' => false, 'id' => 'gambar'],
 			'harga' => ['label' => 'Harga', 'type' => 'text', 'value' => $barang->harga, 'required' => true, 'id' => 'harga'],
 			'kategori_id' => ['label' => 'Kategori Id', 'type' => 'select', 'value' => $barang->kategori_id, 'required' => true, 'options' => $ref_kategori->all(), 'class' => 'select2', 'id' => 'kategori_id'],
 			'nama' => ['label' => 'Nama', 'type' => 'text', 'value' => $barang->nama, 'required' => true, 'id' => 'nama'],
@@ -109,7 +114,7 @@ class BarangController extends Controller
 	public function update(Request $request, $id)
 	{
 		$this->validate($request, [
-			'gambar' => 'required',
+			'gambar' => 'nullable|image|max:2048',
 			'harga' => 'required',
 			'kategori_id' => 'required',
 			'nama' => 'required',
@@ -118,7 +123,12 @@ class BarangController extends Controller
 		]);
 
 		$barang = Barang::find($id);
-		$barang->gambar = $request->input("gambar");
+		if ($request->hasFile('gambar')) {
+			$path = $request->file('gambar')->store('barang', 'public');
+			$barang->gambar = basename($path);
+		} else {
+			$barang->gambar = $request->input('gambar');
+		}
 		$barang->harga = $request->input("harga");
 		$barang->kategori_id = $request->input("kategori_id");
 		$barang->nama = $request->input("nama");
