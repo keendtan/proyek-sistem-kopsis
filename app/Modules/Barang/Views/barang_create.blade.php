@@ -28,7 +28,7 @@
             </div>
             <div class="card-body">
                 @include('include.flash')
-                <form class="form form-horizontal" action="{{ route('barang.store') }}" method="POST">
+                <form class="form form-horizontal" action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data">
                     <div class="form-body">
                         @csrf 
                         @foreach ($forms as $key => $field)
@@ -46,12 +46,36 @@
                                 </div>
                             </div>
                         @endforeach
+                        <div class="row mb-3" id="gambar-preview-row" style="display:none;">
+                            <div class="col-md-3 text-sm-start text-md-end pt-2">
+                                <label>Preview Gambar</label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <img id="gambar-preview" src="" alt="Preview" style="max-width:220px; border-radius:8px; display:block;" />
+                            </div>
+                        </div>
                         <div class="offset-md-3 ps-2 pt-2 d-flex gap-2">
                             <button class="btn btn-primary icon icon-left" type="submit"><i class="fa fa-arrow-right"></i> Simpan</button>
                             <a href="{{ route('barang.index') }}" class="btn btn-outline-secondary">Batal</a>
                         </div>
                   </div>
                 </form>
+                <script>
+                    (function(){
+                        const input = document.querySelector('input[type=file][name=gambar]');
+                        if(!input) return;
+                        input.setAttribute('accept', 'image/*');
+                        const previewRow = document.getElementById('gambar-preview-row');
+                        const previewImg = document.getElementById('gambar-preview');
+                        input.addEventListener('change', function(e){
+                            const file = this.files && this.files[0];
+                            if(!file) { previewRow.style.display = 'none'; return; }
+                            const url = URL.createObjectURL(file);
+                            previewImg.src = url;
+                            previewRow.style.display = 'block';
+                        });
+                    })();
+                </script>
             </div>
         </div>
 
