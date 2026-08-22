@@ -56,7 +56,7 @@ Route::get('/home', function (Request $request) {
     })->all();
 
     return view('UsersKita.home', ['menus' => $menus, 'kategoris' => $kategoris, 'selectedKategori' => $selectedKategori]);
-})->name('home');
+})->middleware(\App\Http\Middleware\RedirectIfNotUserKita::class)->name('home');
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

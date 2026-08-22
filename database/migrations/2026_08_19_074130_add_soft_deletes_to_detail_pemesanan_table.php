@@ -8,15 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('detail_pemesanan', function (Blueprint $table) {
-            $table->softDeletes();
-        });
+        if (! Schema::hasColumn('detail_pemesanan', 'deleted_at')) {
+            Schema::table('detail_pemesanan', function (Blueprint $table) {
+                $table->softDeletes();
+            });
+        }
     }
 
     public function down(): void
     {
-        Schema::table('detail_pemesanan', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-        });
+        if (Schema::hasColumn('detail_pemesanan', 'deleted_at')) {
+            Schema::table('detail_pemesanan', function (Blueprint $table) {
+                $table->dropSoftDeletes();
+            });
+        }
     }
-};                                                                                                                                                                                                                                                                                                                                              `
+};

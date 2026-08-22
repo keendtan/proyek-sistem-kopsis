@@ -17,7 +17,7 @@ class UserKitaRegisteredUserController extends Controller
 {
     public function create(): View
     {
-        return view('auth.register', [
+        return view('UsersKita.auth.register', [
             'registerRoute' => 'userkita.register.store',
             'loginRoute' => 'userkita.login',
         ]);

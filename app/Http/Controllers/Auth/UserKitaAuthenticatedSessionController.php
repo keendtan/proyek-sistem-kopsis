@@ -16,7 +16,7 @@ class UserKitaAuthenticatedSessionController extends Controller
 {
     public function create(): View
     {
-        return view('auth.login', [
+        return view('UsersKita.auth.login', [
             'loginRoute' => 'userkita.login.store',
             'registerRoute' => 'userkita.register',
             'loginField' => 'login',
