@@ -8,6 +8,8 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\UserKitaRegisteredUserController;
+use App\Http\Controllers\Auth\UserKitaAuthenticatedSessionController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +38,19 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
 });
+
+// UserKita registration has its own entry point and must not use the admin guest redirect.
+Route::get('UserKita/register', [UserKitaRegisteredUserController::class, 'create'])
+    ->name('userkita.register');
+
+Route::post('UserKita/register', [UserKitaRegisteredUserController::class, 'store'])
+    ->name('userkita.register.store');
+
+Route::get('UserKita/login', [UserKitaAuthenticatedSessionController::class, 'create'])
+    ->name('userkita.login');
+
+Route::post('UserKita/login', [UserKitaAuthenticatedSessionController::class, 'store'])
+    ->name('userkita.login.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)

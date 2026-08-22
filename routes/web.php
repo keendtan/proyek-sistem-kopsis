@@ -25,13 +25,13 @@ Route::get('/home', function (Request $request) {
         if (preg_match('/^[0-9a-fA-F\-]{36}$/', $selectedKategori)) {
             $query->where('kategori_id', $selectedKategori);
         } else {
-            $kat = Kategori::where('nama', $selectedKategori)->orWhere('slug', $selectedKategori)->first();
+            $kat = Kategori::where('nama_kategori', $selectedKategori)->first();
             if ($kat) {
                 $query->where('kategori_id', $kat->id);
                 $selectedKategori = $kat->id; // normalize for view
             } else {
                 // try case-insensitive name match
-                $kat = Kategori::whereRaw('LOWER(nama) = ?', [strtolower($selectedKategori)])->first();
+                $kat = Kategori::whereRaw('LOWER(nama_kategori) = ?', [strtolower($selectedKategori)])->first();
                 if ($kat) {
                     $query->where('kategori_id', $kat->id);
                     $selectedKategori = $kat->id;
@@ -52,7 +52,7 @@ Route::get('/home', function (Request $request) {
     })->all();
 
     $kategoris = Kategori::all()->map(function($k){
-        return ['id' => $k->id, 'nama' => $k->nama ?? $k->name ?? ''];
+        return ['id' => $k->id, 'nama' => $k->nama_kategori];
     })->all();
 
     return view('UsersKita.home', ['menus' => $menus, 'kategoris' => $kategoris, 'selectedKategori' => $selectedKategori]);

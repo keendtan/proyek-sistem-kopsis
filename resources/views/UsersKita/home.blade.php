@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -13,6 +12,7 @@
             --card-bg: #ffffff;
             --text-dark: #2b1a1a;
             --text-muted: #9a8b8b;
+            --pill-inactive: #e9e2e2;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -24,20 +24,16 @@
         }
 
         .app {
-            max-width: 1200px;
+            width: 100%;
+            max-width: 1280px;
             margin: 0 auto;
             min-height: 100vh;
             background: var(--cream);
-            position: relative;
-            padding-bottom: 80px;
-            padding-left: 16px;
-            padding-right: 16px;
         }
 
-        /* ---------- Header ---------- */
         .header {
             background: var(--maroon);
-            padding: 16px 16px 22px;
+            padding: 16px 16px 20px;
             border-bottom-left-radius: 18px;
             border-bottom-right-radius: 18px;
         }
@@ -46,6 +42,9 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            width: 100%;
+            max-width: 1180px;
+            margin: 0 auto;
         }
 
         .logo-badge {
@@ -74,38 +73,86 @@
             border: none;
             outline: none;
             flex: 1;
+            min-width: 0;
             font-size: 13px;
             color: var(--text-dark);
             background: transparent;
         }
 
-        .search-bar input::placeholder {
-            color: var(--text-muted);
-        }
+        .search-bar input::placeholder { color: var(--text-muted); }
 
-        .profile-icon {
-            width: 34px;
-            height: 34px;
+        .icon-btn {
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.15);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #fff;
             flex-shrink: 0;
+            position: relative;
+            text-decoration: none;
         }
 
-        /* ---------- Grid ---------- */
+        .icon-btn .badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            background: #fff;
+            color: var(--maroon);
+            font-size: 9px;
+            font-weight: 700;
+            min-width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 3px;
+        }
+
+        .category-scroll {
+            display: flex;
+            gap: 10px;
+            padding: 18px 14px 6px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+        .category-scroll::-webkit-scrollbar { display: none; }
+
+        .category-pill {
+            flex-shrink: 0;
+            padding: 9px 20px;
+            border-radius: 999px;
+            font-size: 12.5px;
+            font-weight: 600;
+            background: var(--pill-inactive);
+            color: var(--text-dark);
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background .15s, color .15s;
+        }
+
+        .category-pill.active {
+            background: var(--maroon);
+            color: #fff;
+        }
+
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 18px;
-            padding: 18px 14px 10px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 14px 14px 24px;
+            max-width: 1180px;
+            margin: 0 auto;
         }
 
         .food-card {
             background: var(--card-bg);
-            border-radius: 14px;
+            border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 3px 10px rgba(140, 43, 43, 0.08);
             display: flex;
@@ -114,121 +161,51 @@
 
         .food-card img {
             width: 100%;
-            height: 100px;
+            height: 68px;
             object-fit: cover;
             display: block;
         }
 
-        .food-info {
-            padding: 8px 10px 10px;
-            position: relative;
-        }
+        .food-info { padding: 6px 7px 8px; position: relative; }
 
         .food-name {
-            font-size: 12.5px;
+            font-size: 9.5px;
             font-weight: 600;
             color: var(--maroon);
-            line-height: 1.3;
+            line-height: 1.25;
             margin-bottom: 2px;
-            min-height: 30px;
+            min-height: 24px;
         }
 
         .stock-badge {
             position: absolute;
-            top: 8px;
-            right: 10px;
-            font-size: 9px;
+            top: 6px;
+            right: 7px;
+            font-size: 7px;
             color: var(--text-muted);
         }
 
-        .price-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 4px;
-        }
-
         .price {
-            font-size: 12px;
+            font-size: 9.5px;
             font-weight: 700;
             color: var(--text-dark);
+            display: block;
+            margin-bottom: 5px;
         }
 
         .btn-add {
+            width: 100%;
             background: var(--maroon);
             color: #fff;
             border: none;
             border-radius: 999px;
-            font-size: 10px;
-            padding: 5px 12px;
+            font-size: 8.5px;
+            padding: 4px 0;
             font-weight: 600;
             cursor: pointer;
-            white-space: nowrap;
         }
 
-        .btn-add:hover {
-            background: var(--maroon-dark);
-        }
-
-        /* ---------- Bottom Nav ---------- */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            background: var(--maroon);
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 12px 20px;
-            border-top-left-radius: 18px;
-            border-top-right-radius: 18px;
-        }
-
-        /* ---------- Top Nav ---------- */
-        .top-nav {
-            display:flex;
-            gap:12px;
-            background:#fff;
-            padding:10px 14px;
-            margin-top:10px;
-            border-radius:12px;
-            align-items:center;
-            justify-content:space-between;
-        }
-
-        .top-nav .nav-item { color:var(--text-dark); text-decoration:none; padding:8px 12px; border-radius:8px; display:flex; gap:8px; align-items:center; }
-        .top-nav .nav-item.active { background:var(--maroon); color:#fff; }
-
-        /* Desktop adjustments */
-        @media (min-width: 768px) {
-            .app { padding-bottom: 24px; }
-            .header { padding: 22px 24px; }
-            .menu-grid { gap: 20px; }
-            .food-card img { height: 160px; }
-            /* Hide mobile bottom nav on larger screens */
-            .bottom-nav { display: none; }
-        }
-
-        .bottom-nav .nav-item {
-            color: #fff;
-            opacity: 0.85;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-        }
-
-        .bottom-nav .nav-item.active {
-            background: #2b1a1a;
-            border-radius: 50%;
-            opacity: 1;
-        }
-
-        .bottom-nav svg { width: 18px; height: 18px; }
+        .btn-add:hover { background: var(--maroon-dark); }
 
         .empty-state {
             text-align: center;
@@ -236,151 +213,159 @@
             color: var(--text-muted);
             grid-column: 1 / -1;
         }
+
+        @media (max-width: 380px) {
+            .menu-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (min-width: 768px) {
+            body { background: #f3e9e2; }
+
+            .header {
+                padding: 22px 32px 26px;
+                border-bottom-left-radius: 24px;
+                border-bottom-right-radius: 24px;
+            }
+
+            .header-top { gap: 16px; }
+
+            .logo-badge,
+            .icon-btn {
+                width: 42px;
+                height: 42px;
+            }
+
+            .logo-badge { font-size: 20px; }
+            .icon-btn svg { width: 20px; height: 20px; }
+
+            .search-bar {
+                max-width: 720px;
+                padding: 13px 18px;
+            }
+
+            .search-bar input { font-size: 14px; }
+
+            .category-scroll {
+                gap: 12px;
+                padding: 26px 32px 10px;
+            }
+
+            .category-pill {
+                padding: 11px 24px;
+                font-size: 14px;
+            }
+
+            .menu-grid {
+                grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+                gap: 20px;
+                padding: 20px 32px 40px;
+            }
+
+            .food-card { border-radius: 16px; }
+
+            .food-card img { height: 150px; }
+
+            .food-info { padding: 12px 14px 14px; }
+
+            .food-name {
+                font-size: 14px;
+                min-height: 36px;
+            }
+
+            .stock-badge {
+                top: 12px;
+                right: 14px;
+                font-size: 10px;
+            }
+
+            .price {
+                font-size: 13px;
+                margin-bottom: 10px;
+            }
+
+            .btn-add {
+                font-size: 12px;
+                padding: 8px 0;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="app">
+    @php
+        $selected = $selectedKategori ?? 'all';
+        $categoryUrl = function ($category) {
+            return route('home', array_merge(request()->except('page'), ['kategori' => $category]));
+        };
+    @endphp
 
-        {{-- ================= HEADER ================= --}}
-        <div class="header">
+    <div class="app">
+        <header class="header">
             <div class="header-top">
                 <div class="logo-badge">🍜</div>
 
-                <form action="{{ route('menu.index') ?? '#' }}" method="GET" class="search-bar">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9a8b8b" stroke-width="2">
+                <form action="{{ route('home') }}" method="GET" class="search-bar">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9a8b8b" stroke-width="2" aria-hidden="true">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
-                    <input
-                        type="text"
-                        name="search"
-                        value="{{ request('search') }}"
-                        placeholder="Nasi goreng spesial ga pedes karet 1...."
-                    >
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari menu makanan..." aria-label="Cari menu">
                 </form>
 
-                <a href="{{ route('profile.edit') ?? '#' }}" class="profile-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <a href="{{ route('profile.edit') }}" class="icon-btn" aria-label="Profil">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <circle cx="12" cy="8" r="4"></circle>
                         <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
                     </svg>
                 </a>
-            </div>
 
-            {{-- top nav moved inside header so it's visible on desktop --}}
-            @php
-                $rawKat = request('kategori') ?? 'all';
-                // helper to get id for named kategori
-                $getKatId = function($name) use ($kategoris) {
-                    foreach($kategoris ?? [] as $k) {
-                        if(strtolower($k['nama']) == strtolower($name)) return $k['id'];
-                    }
-                    return null;
-                };
-                $makananId = $getKatId('makanan');
-                $minumanId = $getKatId('minuman');
-                $snackId = $getKatId('snack');
-            @endphp
-
-            <div class="top-nav">
-                <div style="display:flex; gap:8px;">
-                    <a href="{{ route('home', array_merge(request()->except('page'), ['kategori' => 'makanan'])) }}" class="nav-item {{ ($rawKat == 'makanan' || $rawKat == $makananId) ? 'active' : '' }}">Makanan</a>
-                    <a href="{{ route('home', array_merge(request()->except('page'), ['kategori' => 'snack'])) }}" class="nav-item {{ ($rawKat == 'snack' || $rawKat == $snackId) ? 'active' : '' }}">Snack</a>
-                    <a href="{{ route('home', array_merge(request()->except('page'), ['kategori' => 'minuman'])) }}" class="nav-item {{ ($rawKat == 'minuman' || $rawKat == $minumanId) ? 'active' : '' }}">Minuman</a>
-                </div>
-                <div style="display:flex; gap:8px;">
-                    <a href="{{ route('keranjang.index') ?? '#' }}" class="nav-item">Keranjang</a>
-                    <a href="{{ route('transaksi.index') ?? '#' }}" class="nav-item">Riwayat</a>
-                </div>
-            </div>
-
-        </div>
-            <div style="padding:12px 14px 0; display:flex; gap:8px; align-items:center; overflow:auto;">
-                @php $sel = $selectedKategori ?? 'all'; @endphp
-                <a href="{{ route('home', array_merge(request()->except('page'), ['kategori' => 'all'])) }}" style="padding:8px 12px; border-radius:999px; text-decoration:none; font-weight:600; color:{{ $sel === 'all' ? '#fff' : 'var(--text-dark)' }}; background: {{ $sel === 'all' ? 'var(--maroon)' : '#fff' }};">
-                    Semua
+                <a href="{{ route('keranjang.index') }}" class="icon-btn" aria-label="Keranjang">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <circle cx="9" cy="21" r="1"/>
+                        <circle cx="20" cy="21" r="1"/>
+                        <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/>
+                    </svg>
+                    @if(!empty($cartCount))
+                        <span class="badge">{{ $cartCount }}</span>
+                    @endif
                 </a>
-                @if(!empty($kategoris))
-                    @foreach($kategoris as $kat)
-                        @php $active = $sel == $kat['id']; @endphp
-                        <a href="{{ route('home', array_merge(request()->except('page'), ['kategori' => $kat['id']])) }}" style="padding:8px 12px; border-radius:999px; text-decoration:none; color:{{ $active ? '#fff' : 'var(--text-dark)' }}; background: {{ $active ? 'var(--maroon)' : 'rgba(255,255,255,0.9)' }};">
-                            {{ $kat['nama'] }}
-                        </a>
-                    @endforeach
-                @endif
             </div>
+        </header>
 
-        {{-- ================= GRID MENU ================= --}}
-        <div class="menu-grid">
+        <nav class="category-scroll" aria-label="Kategori menu">
+            <a href="{{ $categoryUrl('all') }}" class="category-pill {{ $selected === 'all' || empty($selected) ? 'active' : '' }}">Semua</a>
+            @foreach ($kategoris ?? [] as $category)
+                <a href="{{ $categoryUrl($category['id']) }}" class="category-pill {{ (string) $selected === (string) $category['id'] ? 'active' : '' }}">
+                    {{ $category['nama'] }}
+                </a>
+            @endforeach
+            <a href="{{ route('transaksi.index') }}" class="category-pill {{ request()->routeIs('transaksi.*') ? 'active' : '' }}">Riwayat</a>
+        </nav>
+
+        <main class="menu-grid">
             @forelse ($menus as $menu)
-                <div class="food-card">
-                    <img
-                        src="{{ isset($menu['image']) ? asset('storage/barang/'.$menu['image']) : asset('images/placeholder-food.jpg') }}"
-                        alt="{{ $menu['name'] }}"
-                        loading="lazy"
-                    >
+                <article class="food-card">
+                    <img src="{{ isset($menu['image']) ? asset('storage/barang/'.$menu['image']) : asset('images/placeholder-food.jpg') }}" alt="{{ $menu['name'] }}" loading="lazy">
                     <div class="food-info">
                         @if(!empty($menu['stock']))
                             <span class="stock-badge">Stok {{ $menu['stock'] }}</span>
                         @endif
-
                         <div class="food-name">{{ $menu['name'] }}</div>
-
-                        <div class="price-row">
-                            <span class="price">Rp.{{ number_format($menu['price'], 0, ',', '.') }}</span>
-
-                            <form action="{{ route('keranjang.store') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="barang_id" value="{{ $menu['id'] ?? 0 }}">
-                                <input type="hidden" name="barang_nama" value="{{ $menu['name'] ?? '' }}">
-                                <input type="hidden" name="catatan_item" value="">
-                                <input type="hidden" name="jumlah_barang" value="1">
-                                <input type="hidden" name="total" value="{{ $menu['price'] ?? 0 }}">
-                                <button type="submit" class="btn-add">+ Tambah</button>
-                            </form>
-                        </div>
+                        <span class="price">Rp.{{ number_format($menu['price'], 0, ',', '.') }}</span>
+                        <form action="{{ route('keranjang.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="barang_id" value="{{ $menu['id'] ?? 0 }}">
+                            <input type="hidden" name="barang_nama" value="{{ $menu['name'] ?? '' }}">
+                            <input type="hidden" name="catatan_item" value="">
+                            <input type="hidden" name="jumlah_barang" value="1">
+                            <input type="hidden" name="total" value="{{ $menu['price'] ?? 0 }}">
+                            <button type="submit" class="btn-add">+ Tambah</button>
+                        </form>
                     </div>
-                </div>
+                </article>
             @empty
-                <div class="empty-state">
-                    Menu tidak ditemukan.
-                </div>
+                <div class="empty-state">Menu tidak ditemukan.</div>
             @endforelse
-        </div>
-
-        {{-- ================= BOTTOM NAV ================= --}}
-        <div class="bottom-nav">
-            <a href="{{ route('menu.index') ?? '#' }}" class="nav-item active">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="9"></circle>
-                </svg>
-            </a>
-            <a href="#" class="nav-item">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 21s-6.7-4.35-9.3-8.1C.9 10.1 1.7 6.6 4.7 5.3c2-.9 4.2-.3 5.6 1.4l1.7 2 1.7-2c1.4-1.7 3.6-2.3 5.6-1.4 3 1.3 3.8 4.8 2 7.6C18.7 16.65 12 21 12 21z"/>
-                </svg>
-            </a>
-            <a href="#" class="nav-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M7 3h10l-1.5 14a2 2 0 0 1-2 1.8h-3a2 2 0 0 1-2-1.8L7 3z"/>
-                    <line x1="7" y1="8" x2="17" y2="8"/>
-                </svg>
-            </a>
-            <a href="{{ route('keranjang.index') ?? '#' }}" class="nav-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="9" cy="21" r="1"/>
-                    <circle cx="20" cy="21" r="1"/>
-                    <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/>
-                </svg>
-            </a>
-            <a href="{{ route('transaksi.index') ?? '#' }}" class="nav-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 4h16v16H4z"/>
-                    <path d="M8 10h8M8 14h5"/>
-                </svg>
-            </a>
-        </div>
-
+        </main>
     </div>
 </body>
 </html>
