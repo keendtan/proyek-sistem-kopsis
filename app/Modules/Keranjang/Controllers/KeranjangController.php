@@ -56,7 +56,7 @@ class KeranjangController extends Controller
 		$this->validate($request, [
 			'barang_id' => 'required',
 			'barang_nama' => 'required',
-			'catatan_item' => 'required',
+			'catatan_item' => 'nullable',
 			'jumlah_barang' => 'required',
 			'total' => 'required',
 			

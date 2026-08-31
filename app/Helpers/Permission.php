@@ -4,6 +4,7 @@ namespace App\Helpers;
 use App\Modules\Menu\Models\Menu;
 use App\Modules\Role\Models\Role;
 use App\Modules\Users\Models\Users;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Modules\Privilege\Models\Privilege;
 
@@ -27,12 +28,32 @@ class Permission
 
 	public static function getMenu($id_role)
 	{
-		$menus = Role::with('menu')->where('id',$id_role)->first();
+		// Ambil semua menu dari privilege dengan distinct untuk menghindari duplikasi
+		$privilegeMenus = Menu::whereExists(function ($query) use ($id_role) {
+				$query->select(DB::raw(1))
+					->from('privilege')
+					->whereColumn('privilege.id_menu', 'menu.id')
+					->where('privilege.id_role', $id_role)
+					->where('privilege.show_menu', 1)
+					->where('menu.is_tampil', 1);
+			})
+			->orderBy('menu.urutan')
+			->get(['menu.id', 'icon', 'menu', 'routing', 'level', 'urutan', 'parent_id'])
+			->unique('id')
+			->values()
+			->all();
+		
+		$privilegeMenuIds = array_column($privilegeMenus, 'id');
 
-		$groups = Menu::where('level', 0)->where('is_tampil', 1)->orderBy('urutan')->get(['menu.id', 'icon', 'menu', 'routing', 'level', 'urutan', 'parent_id'])->all();
-		$menus = $menus->menu()->orderBy('urutan')->get(['menu.id', 'icon', 'menu', 'routing', 'level', 'urutan', 'parent_id'])->all();
+		// Ambil menu level 0 yang TIDAK ada di privilege (untuk menghindari duplikasi)
+		$groups = Menu::where('level', 0)
+			->where('is_tampil', 1)
+			->whereNotIn('id', $privilegeMenuIds)
+			->orderBy('urutan')
+			->get(['menu.id', 'icon', 'menu', 'routing', 'level', 'urutan', 'parent_id'])
+			->all();
 
-		return array_merge($groups, $menus);
+		return array_merge($groups, $privilegeMenus);
 	}
 
 	public static function getRole($id_user)

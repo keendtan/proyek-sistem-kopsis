@@ -15,13 +15,13 @@ class RoleTableSeeder extends Seeder
      */
     public function run()
     {
-        Role::create([
-            'role' => 'Super Admin',
-            'level' => 1
-        ]);
-        Role::create([
-            'role' => 'Admin',
-            'level' => 2
-        ]);
+        Role::updateOrCreate(
+            ['role' => 'Super Admin'],
+            ['role' => 'Super Admin', 'level' => 1]
+        );
+        Role::updateOrCreate(
+            ['role' => 'Admin'],
+            ['role' => 'Admin', 'level' => 2]
+        );
     }
 }
