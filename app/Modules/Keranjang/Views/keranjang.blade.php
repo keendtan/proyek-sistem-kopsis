@@ -492,13 +492,7 @@
         <div class="content">
 
             <!-- CART ITEMS -->
-            <div class="cart-items-wrapper" id="cartItems">
-                <div class="empty-state">
-                    <div class="empty-state-icon">🛒</div>
-                    <h3>Keranjang Kosong</h3>
-                    <p>Tambahkan produk untuk melanjutkan</p>
-                </div>
-            </div>
+            <div class="cart-items-wrapper" id="cartItems"></div>
 
             <!-- ADD MORE -->
             <div class="add-more" onclick="addMore()">
@@ -522,7 +516,6 @@
                     <span>Rp <span id="grand-total">0</span></span>
                 </div>
 
-                <!-- CHECKOUT -->
                 <button class="checkout" onclick="checkout()">
                     <span class="lock">🛍️</span>
                     Lanjut Checkout
@@ -535,53 +528,128 @@
 </div>
 
 <script>
+    const CART_KEY = 'cravecourt_cart';
 
-    // FORMAT RUPIAH
-    function formatRupiah(angka) {
-        return angka.toLocaleString('id-ID');
+    function getCart() {
+        try {
+            return JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+        } catch (error) {
+            return [];
+        }
     }
 
-    // UBAH JUMLAH
+    function saveCart(cart) {
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    }
+
+    function formatRupiah(angka) {
+        return Number(angka || 0).toLocaleString('id-ID');
+    }
+
+    function renderCart() {
+        const cart = getCart();
+        const cartItems = document.getElementById('cartItems');
+
+        if (!cart.length) {
+            cartItems.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">🛒</div>
+                    <h3>Keranjang Kosong</h3>
+                    <p>Tambahkan produk untuk melanjutkan</p>
+                </div>
+            `;
+            updateSummary();
+            return;
+        }
+
+        cartItems.innerHTML = cart.map((item) => `
+            <div class="cart-item" data-id="${item.id}" data-price="${item.price}">
+                <img class="product-image" src="${item.image || 'https://placehold.co/120x120/efe3dd/8d4e42?text=Menu'}" alt="${item.name}">
+
+                <div class="product-info">
+                    <h3>${item.name}</h3>
+                    <div class="portion">Porsi: <span class="qty-text">${item.qty || 1}</span></div>
+
+                    <input
+                        type="text"
+                        class="note"
+                        value="${item.note || ''}"
+                        data-note-id="${item.id}"
+                        placeholder="Tambah catatan pesanan"
+                    >
+
+                    <div class="total-item">Rp <span class="item-total">${formatRupiah((item.price || 0) * (item.qty || 1))}</span></div>
+                </div>
+
+                <div class="product-actions">
+                    <button class="delete" onclick="hapusItem(this)" title="Hapus item">×</button>
+
+                    <div class="quantity">
+                        <button class="qty-btn minus" onclick="ubahQty(this, -1)" title="Kurangi">−</button>
+                        <input type="text" value="${item.qty || 1}" class="qty-input" readonly>
+                        <button class="qty-btn plus" onclick="ubahQty(this, 1)" title="Tambah">+</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.note').forEach((input) => {
+            input.addEventListener('input', function () {
+                const cart = getCart();
+                const id = this.dataset.noteId;
+                const index = cart.findIndex(item => String(item.id) === String(id));
+                if (index >= 0) {
+                    cart[index].note = this.value;
+                    saveCart(cart);
+                }
+            });
+        });
+
+        updateSummary();
+    }
+
     function ubahQty(button, perubahan) {
         const item = button.closest('.cart-item');
         const input = item.querySelector('.qty-input');
         const qtyText = item.querySelector('.qty-text');
         const totalItem = item.querySelector('.item-total');
+        const id = item.dataset.id;
+        const price = Number(item.dataset.price || 0);
 
-        let qty = parseInt(input.value);
-        qty += perubahan;
+        const cart = getCart();
+        const index = cart.findIndex((entry) => String(entry.id) === String(id));
 
-        // Minimal 1
+        if (index < 0) return;
+
+        let qty = Number(cart[index].qty || 1) + perubahan;
         if (qty < 1) qty = 1;
+
+        cart[index].qty = qty;
+        saveCart(cart);
 
         input.value = qty;
         qtyText.textContent = qty;
-
-        // Hitung harga produk
-        const harga = parseInt(item.dataset.price);
-        const total = harga * qty;
-        totalItem.textContent = formatRupiah(total);
+        totalItem.textContent = formatRupiah(price * qty);
 
         updateSummary();
     }
 
-    // HAPUS PRODUK
     function hapusItem(button) {
         const item = button.closest('.cart-item');
-        item.remove();
-        updateSummary();
-        checkEmptyCart();
+        const id = item.dataset.id;
+        const cart = getCart().filter((entry) => String(entry.id) !== String(id));
+        saveCart(cart);
+        renderCart();
     }
 
-    // UPDATE TOTAL
     function updateSummary() {
         const items = document.querySelectorAll('.cart-item');
         let subtotal = 0;
         let jumlahItem = 0;
 
         items.forEach(item => {
-            const harga = parseInt(item.dataset.price);
-            const qty = parseInt(item.querySelector('.qty-input').value);
+            const harga = parseInt(item.dataset.price || 0, 10);
+            const qty = parseInt(item.querySelector('.qty-input').value || 0, 10);
             subtotal += harga * qty;
             jumlahItem += qty;
         });
@@ -591,33 +659,14 @@
         document.getElementById('grand-total').textContent = formatRupiah(subtotal);
     }
 
-    // CEK KERANJANG KOSONG
-    function checkEmptyCart() {
-        const items = document.querySelectorAll('.cart-item');
-        const cartItems = document.getElementById('cartItems');
-        
-        if (items.length === 0) {
-            cartItems.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-state-icon">🛒</div>
-                    <h3>Keranjang Kosong</h3>
-                    <p>Tambahkan produk untuk melanjutkan</p>
-                </div>
-            `;
-        }
-    }
-
-    // ADD MORE
     function addMore() {
-        window.location.href = "{{ route('frontend.index') }}";
+        window.location.href = "{{ route('home') }}";
     }
 
-    // GO BACK
     function goBack() {
         window.history.back();
     }
 
-    // CHECKOUT
     function checkout() {
         const items = document.querySelectorAll('.cart-item');
         if (items.length === 0) {
@@ -627,12 +676,9 @@
         alert("Pesanan berhasil dilanjutkan ke checkout!");
     }
 
-    // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
-        checkEmptyCart();
-        updateSummary();
+        renderCart();
     });
-
 </script>
 
 </body>

@@ -351,13 +351,14 @@
                         @endif
                         <div class="food-name">{{ $menu['name'] }}</div>
                         <span class="price">Rp.{{ number_format($menu['price'], 0, ',', '.') }}</span>
-                        <form action="{{ route('keranjang.store') }}" method="POST">
+                        <form class="add-to-cart-form" action="{{ route('keranjang.store') }}" method="POST">
                             @csrf
                             <input type="hidden" name="barang_id" value="{{ $menu['id'] ?? 0 }}">
                             <input type="hidden" name="barang_nama" value="{{ $menu['name'] ?? '' }}">
                             <input type="hidden" name="catatan_item" value="">
                             <input type="hidden" name="jumlah_barang" value="1">
                             <input type="hidden" name="total" value="{{ $menu['price'] ?? 0 }}">
+                            <input type="hidden" name="image" value="{{ isset($menu['image']) ? asset('storage/barang/'.$menu['image']) : asset('images/placeholder-food.jpg') }}">
                             <button type="submit" class="btn-add">+ Tambah</button>
                         </form>
                     </div>
@@ -367,5 +368,40 @@
             @endforelse
         </main>
     </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const CART_KEY = 'cravecourt_cart';
+
+        document.querySelectorAll('.add-to-cart-form').forEach((form) => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const id = form.querySelector('[name="barang_id"]').value;
+                const name = form.querySelector('[name="barang_nama"]').value;
+                const price = Number(form.querySelector('[name="total"]').value || 0);
+                const image = form.querySelector('[name="image"]').value;
+
+                const cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+                const existing = cart.find((item) => String(item.id) === String(id));
+
+                if (existing) {
+                    existing.qty += 1;
+                } else {
+                    cart.push({
+                        id,
+                        name,
+                        price,
+                        image,
+                        qty: 1,
+                        note: ''
+                    });
+                }
+
+                localStorage.setItem(CART_KEY, JSON.stringify(cart));
+                window.location.href = "{{ route('keranjang.index') }}";
+            });
+        });
+    });
+</script>
 </body>
 </html>
