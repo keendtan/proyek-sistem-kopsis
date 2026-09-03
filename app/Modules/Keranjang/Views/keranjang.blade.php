@@ -153,7 +153,7 @@
         }
 
         /* QUANTITY CONTROL */
-        .quantity {
+        .product-actions{
             display: flex;
             align-items: center;
             gap: 4px;
@@ -433,7 +433,16 @@
             }
 
             .cart-item {
-                grid-template-columns: 100px 1fr 80px;
+              grid-template-columns: 180px 1fr;
+            }
+
+            .product-actions {
+             grid-column: 1;
+             grid-row: 2;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             justify-content: flex-start;
             }
 
             .product-image {
