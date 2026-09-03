@@ -344,7 +344,12 @@
         <main class="menu-grid">
             @forelse ($menus as $menu)
                 <article class="food-card">
-                    <img src="{{ isset($menu['image']) ? asset('storage/barang/'.$menu['image']) : asset('images/placeholder-food.jpg') }}" alt="{{ $menu['name'] }}" loading="lazy">
+                    @php
+                        $imageUrl = !empty($menu['image'])
+                            ? asset('storage/barang/'.$menu['image'])
+                            : asset('images/placeholder-food.jpg');
+                    @endphp
+                    <img src="{{ $imageUrl }}" alt="{{ $menu['name'] }}" loading="lazy">
                     <div class="food-info">
                         @if(!empty($menu['stock']))
                             <span class="stock-badge">Stok {{ $menu['stock'] }}</span>
@@ -358,7 +363,7 @@
                             <input type="hidden" name="catatan_item" value="">
                             <input type="hidden" name="jumlah_barang" value="1">
                             <input type="hidden" name="total" value="{{ $menu['price'] ?? 0 }}">
-                            <input type="hidden" name="image" value="{{ isset($menu['image']) ? asset('storage/barang/'.$menu['image']) : asset('images/placeholder-food.jpg') }}">
+                            <input type="hidden" name="image" value="{{ $imageUrl }}">
                             <button type="submit" class="btn-add">+ Tambah</button>
                         </form>
                     </div>
