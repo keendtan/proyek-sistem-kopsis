@@ -182,6 +182,11 @@
             background: #999;
         }
 
+        .minus.active {
+        background: #a00028;
+        color: white;
+        }
+
         .plus {
             background: #a00028;
             color: white;
@@ -617,31 +622,55 @@
         updateSummary();
     }
 
-    function ubahQty(button, perubahan) {
-        const item = button.closest('.cart-item');
-        const input = item.querySelector('.qty-input');
-        const qtyText = item.querySelector('.qty-text');
-        const totalItem = item.querySelector('.item-total');
-        const id = item.dataset.id;
-        const price = Number(item.dataset.price || 0);
+  function ubahQty(button, perubahan) {
+    const item = button.closest('.cart-item');
+    const input = item.querySelector('.qty-input');
+    const qtyText = item.querySelector('.qty-text');
+    const totalItem = item.querySelector('.item-total');
+    const minusButton = item.querySelector('.minus');
+    const plusButton = item.querySelector('.plus');
 
-        const cart = getCart();
-        const index = cart.findIndex((entry) => String(entry.id) === String(id));
+    let qty = parseInt(input.value);
+    qty += perubahan;
 
-        if (index < 0) return;
-
-        let qty = Number(cart[index].qty || 1) + perubahan;
-        if (qty < 1) qty = 1;
-
-        cart[index].qty = qty;
-        saveCart(cart);
-
-        input.value = qty;
-        qtyText.textContent = qty;
-        totalItem.textContent = formatRupiah(price * qty);
-
-        updateSummary();
+    // Minimal 1
+    if (qty < 1) {
+        qty = 1;
     }
+
+    // Maksimal 30
+    if (qty > 30) {
+        qty = 30;
+        alert("Maksimal pemesanan adalah 30 porsi.");
+    }
+
+    input.value = qty;
+    qtyText.textContent = qty;
+
+    // Ubah warna tombol minus
+    if (qty > 1) {
+        minusButton.classList.add('active');
+    } else {
+        minusButton.classList.remove('active');
+    }
+
+    // Ubah tombol plus jika sudah mencapai 30
+    if (qty >= 30) {
+        plusButton.style.opacity = "0.5";
+        plusButton.style.cursor = "not-allowed";
+    } else {
+        plusButton.style.opacity = "1";
+        plusButton.style.cursor = "pointer";
+    }
+
+    // Hitung harga produk
+    const harga = parseInt(item.dataset.price);
+    const total = harga * qty;
+
+    totalItem.textContent = formatRupiah(total);
+
+    updateSummary();
+}
 
     function hapusItem(button) {
         const item = button.closest('.cart-item');
