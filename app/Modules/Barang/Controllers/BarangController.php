@@ -54,7 +54,7 @@ class BarangController extends Controller
 	function store(Request $request)
 	{
 		$this->validate($request, [
-			'gambar' => 'nullable|image|max:2048',
+			'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
 			'harga' => 'required',
 			'kategori_id' => 'required',
 			'nama' => 'required',
@@ -114,7 +114,7 @@ class BarangController extends Controller
 	public function update(Request $request, $id)
 	{
 		$this->validate($request, [
-			'gambar' => 'nullable|image|max:2048',
+			'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
 			'harga' => 'required',
 			'kategori_id' => 'required',
 			'nama' => 'required',
