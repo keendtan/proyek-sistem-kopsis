@@ -338,16 +338,14 @@
                     {{ $category['nama'] }}
                 </a>
             @endforeach
-            <a href="{{ route('transaksi.index') }}" class="category-pill {{ request()->routeIs('transaksi.*') ? 'active' : '' }}">Riwayat</a>
+            <a href="{{ route('riwayat.pesanan') }}" class="category-pill {{ request()->routeIs('riwayat.pesanan') ? 'active' : '' }}">Riwayat</a>
         </nav>
 
         <main class="menu-grid">
             @forelse ($menus as $menu)
                 <article class="food-card">
                     @php
-                        $imageUrl = !empty($menu['image'])
-                            ? asset('storage/barang/'.$menu['image'])
-                            : asset('images/placeholder-food.jpg');
+                        $imageUrl = $menu['image'];
                     @endphp
                     <img src="{{ $imageUrl }}" alt="{{ $menu['name'] }}" loading="lazy">
                     <div class="food-info">

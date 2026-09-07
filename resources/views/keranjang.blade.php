@@ -507,6 +507,7 @@
                             src="{{ $item['image'] }}"
                             class="product-image"
                             alt="{{ $item['name'] }}"
+                            onerror="this.onerror=null; this.src='{{ asset('assets/images/samples/banana.jpg') }}';"
                         >
 
                         <div class="product-info">

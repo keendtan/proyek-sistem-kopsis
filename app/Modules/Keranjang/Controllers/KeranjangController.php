@@ -6,9 +6,13 @@ use Illuminate\Http\Request;
 use App\Modules\Log\Models\Log;
 use App\Modules\Keranjang\Models\Keranjang;
 use App\Modules\Barang\Models\Barang;
+use App\Modules\Transaksi\Models\Transaksi;
+use App\Modules\Detail_pemesanan\Models\Detail_pemesanan;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class KeranjangController extends Controller
 {
@@ -75,6 +79,48 @@ class KeranjangController extends Controller
 		$text = 'membuat '.$this->title; //' baru '.$keranjang->what;
 		$this->log($request, $text, ['keranjang.id' => $keranjang->id]);
 		return redirect()->route('keranjang.index')->with('message_success', 'Keranjang berhasil ditambahkan!');
+	}
+
+	public function checkout(Request $request)
+	{
+		$this->validate($request, [
+			'items' => 'required|array|min:1',
+			'items.*.id' => 'required',
+			'items.*.price' => 'required|numeric|min:0',
+			'items.*.qty' => 'required|integer|min:1',
+		]);
+
+		$transaksi = DB::transaction(function () use ($request) {
+			$total = collect($request->input('items'))->sum(function ($item) {
+				return (float) $item['price'] * (int) $item['qty'];
+			});
+
+			$transaksi = new Transaksi();
+			$transaksi->tanggal = now()->toDateString();
+			$transaksi->users_id = Auth::id();
+			$transaksi->status = 'diproses';
+			$transaksi->total = $total;
+			$transaksi->kode_transaksi = 'TRX-'.now()->format('YmdHis').'-'.Str::upper(Str::random(6));
+			$transaksi->save();
+
+			foreach ($request->input('items') as $item) {
+				$detail = new Detail_pemesanan();
+				$detail->transaksi_id = $transaksi->id;
+				$detail->barang_id = $item['id'];
+				$detail->harga_satuan = $item['price'];
+				$detail->jumlah = $item['qty'];
+				$detail->subtotal = (float) $item['price'] * (int) $item['qty'];
+				$detail->save();
+			}
+
+			return $transaksi;
+		});
+
+		return response()->json([
+			'message' => 'Pesanan berhasil dibuat.',
+			'transaksi_id' => $transaksi->id,
+			'status' => $transaksi->status,
+		]);
 	}
 
 	public function show(Request $request, Keranjang $keranjang)

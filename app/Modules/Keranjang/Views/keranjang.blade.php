@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Keranjang - Cravecourt</title>
 
     <style>
@@ -705,13 +706,44 @@
         window.history.back();
     }
 
-    function checkout() {
+    async function checkout() {
         const items = document.querySelectorAll('.cart-item');
         if (items.length === 0) {
             alert("Keranjang masih kosong!");
             return;
         }
-        alert("Pesanan berhasil dilanjutkan ke checkout!");
+
+        const checkoutButton = document.querySelector('.checkout');
+        checkoutButton.disabled = true;
+        checkoutButton.textContent = 'Memproses...';
+
+        try {
+            const response = await fetch("{{ route('keranjang.checkout') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ items: getCart() })
+            });
+
+            const responseText = await response.text();
+            let result = {};
+            try {
+                result = JSON.parse(responseText);
+            } catch (error) {
+                throw new Error(`Checkout gagal (${response.status}). Periksa log Laravel.`);
+            }
+            if (!response.ok) throw new Error(result.message || 'Checkout gagal.');
+
+            localStorage.removeItem(CART_KEY);
+            window.location.href = "{{ route('riwayat.pesanan') }}";
+        } catch (error) {
+            alert(error.message);
+            checkoutButton.disabled = false;
+            checkoutButton.innerHTML = '<span class="lock">🛍️</span> Lanjut Checkout';
+        }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
