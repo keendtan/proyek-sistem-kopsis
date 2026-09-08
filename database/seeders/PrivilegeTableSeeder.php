@@ -67,7 +67,7 @@ class PrivilegeTableSeeder extends Seeder
                 |--------------------------------------------------------------------------
                 | SUPER ADMIN
                 |--------------------------------------------------------------------------
-                | Super Admin tidak mendapatkan akses ke menu Admin
+                | Super Admin tetap dapat mengelola seluruh data aplikasi.
                 |--------------------------------------------------------------------------
                 */
                 Privilege::updateOrCreate(
@@ -76,12 +76,12 @@ class PrivilegeTableSeeder extends Seeder
                         'id_menu' => $menu->id
                     ],
                     [
-                        'show_menu' => 0,
-                        'create' => 0,
-                        'read' => 0,
-                        'show' => 0,
-                        'update' => 0,
-                        'delete' => 0
+                        'show_menu' => 1,
+                        'create' => 1,
+                        'read' => 1,
+                        'show' => 1,
+                        'update' => 1,
+                        'delete' => 1
                     ]
                 );
 
