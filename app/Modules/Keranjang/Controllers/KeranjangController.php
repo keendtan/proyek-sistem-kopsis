@@ -96,6 +96,7 @@ class KeranjangController extends Controller
 			});
 
 			$transaksi = new Transaksi();
+			$transaksi->id = (string) Str::uuid();
 			$transaksi->tanggal = now()->toDateString();
 			$transaksi->users_id = Auth::id();
 			$transaksi->status = 'diproses';
@@ -105,6 +106,7 @@ class KeranjangController extends Controller
 
 			foreach ($request->input('items') as $item) {
 				$detail = new Detail_pemesanan();
+				$detail->id = (string) Str::uuid();
 				$detail->transaksi_id = $transaksi->id;
 				$detail->barang_id = $item['id'];
 				$detail->harga_satuan = $item['price'];

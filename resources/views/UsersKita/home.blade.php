@@ -302,7 +302,7 @@
         <header class="header">
             <div class="header-top">
                 <div class="logo-badge">
-                    <img src="{{ asset('assets/images/LOGO CRAVECOURT.png') }}" alt="Logo" style="width: 24px; height: 24px;">
+                    <img src="{{ asset('assets/images/LOGO CRAVECOURT.png') }}" alt="Logo" style="width: 30px; height: 30px;">
                 </div>
 
                 <form action="{{ route('home') }}" method="GET" class="search-bar">

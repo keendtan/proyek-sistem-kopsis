@@ -9,6 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('transaksi', function (Blueprint $table) {
+            $table->dropForeign(['users_id']);
             $table->string('users_id', 36)->change();
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
         });
@@ -17,6 +18,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('transaksi', function (Blueprint $table) {
+            $table->dropForeign(['users_id']);
             $table->unsignedBigInteger('users_id')->change();
             $table->foreign('users_id')->references('id')->on('users_kita')->onDelete('cascade');
         });
