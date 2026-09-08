@@ -36,7 +36,7 @@ class BarangController extends Controller
 
 	public function create(Request $request)
 	{
-		$ref_kategori = Kategori::all()->pluck('created_by','id');
+		$ref_kategori = Kategori::all()->pluck('nama_kategori', 'id');
 		
 		$data['forms'] = array(
 			'gambar' => ['label' => 'Gambar', 'type' => 'file', 'value' => old("gambar"), 'required' => false],
@@ -95,7 +95,7 @@ class BarangController extends Controller
 	{
 		$data['barang'] = $barang;
 
-		$ref_kategori = Kategori::all()->pluck('created_by','id');
+		$ref_kategori = Kategori::all()->pluck('nama_kategori', 'id');
 		
 		$data['forms'] = array(
 			'gambar' => ['label' => 'Gambar', 'type' => 'file', 'value' => $barang->gambar, 'required' => false, 'id' => 'gambar'],
