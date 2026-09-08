@@ -235,7 +235,7 @@
                 height: 42px;
             }
 
-            .logo-badge { font-size: 20px; }
+            .logo-badge { img-size: 20px; }
             .icon-btn svg { width: 20px; height: 20px; }
 
             .search-bar {
@@ -301,7 +301,9 @@
     <div class="app">
         <header class="header">
             <div class="header-top">
-                <div class="logo-badge">🍜</div>
+                <div class="logo-badge">
+                    <img src="{{ asset('assets/images/LOGO CRAVECOURT.png') }}" alt="Logo" style="width: 24px; height: 24px;">
+                </div>
 
                 <form action="{{ route('home') }}" method="GET" class="search-bar">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9a8b8b" stroke-width="2" aria-hidden="true">
