@@ -56,7 +56,7 @@ Route::get('/home', function (Request $request) {
     $menus = $query->get()->map(function($m){
         $imagePath = $m->gambar ? 'barang/'.basename($m->gambar) : null;
         $imageUrl = $imagePath && Storage::disk('public')->exists($imagePath)
-            ? Storage::disk('public')->url($imagePath)
+            ? asset('storage/'.$imagePath)
             : asset('assets/images/samples/banana.jpg');
 
         return [

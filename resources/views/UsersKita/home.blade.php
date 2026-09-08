@@ -391,6 +391,9 @@
 
                 if (existing) {
                     existing.qty += 1;
+                    existing.name = name;
+                    existing.price = price;
+                    existing.image = image;
                 } else {
                     cart.push({
                         id,
