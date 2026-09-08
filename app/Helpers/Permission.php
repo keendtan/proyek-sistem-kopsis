@@ -58,7 +58,7 @@ class Permission
 
 	public static function getRole($id_user)
 	{
-		return Users::with('roleuser')->find($id_user)->roleuser()->orderByDesc('level')->get();
+		return Users::with('roleuser')->find($id_user)->roleuser()->orderBy('level')->get();
 	}
 
 	public static function getPrivilege($id_role)

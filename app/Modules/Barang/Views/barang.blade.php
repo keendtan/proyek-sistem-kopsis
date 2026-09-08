@@ -60,7 +60,7 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->gambar }}</td>
 									<td>{{ $item->harga }}</td>
-									<td>{{ $item->kategori_id }}</td>
+									<td>{{ $item->kategori->nama_kategori }}</td>
 									<td>{{ $item->nama }}</td>
 									<td>{{ $item->stok }}</td>
 									

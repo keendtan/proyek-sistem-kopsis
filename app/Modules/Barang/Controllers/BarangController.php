@@ -9,6 +9,7 @@ use App\Modules\Kategori\Models\Kategori;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class BarangController extends Controller
 {
@@ -53,8 +54,9 @@ class BarangController extends Controller
 
 	function store(Request $request)
 	{
+		$this->validateGambarUpload($request);
 		$this->validate($request, [
-			'gambar' => 'nullable|image|max:2048',
+			'gambar' => 'nullable|file|image|mimes:jpg,jpeg,png|max:10240',
 			'harga' => 'required',
 			'kategori_id' => 'required',
 			'nama' => 'required',
@@ -113,8 +115,9 @@ class BarangController extends Controller
 
 	public function update(Request $request, $id)
 	{
+		$this->validateGambarUpload($request);
 		$this->validate($request, [
-			'gambar' => 'nullable|image|max:2048',
+			'gambar' => 'nullable|file|image|mimes:jpg,jpeg,png|max:10240',
 			'harga' => 'required',
 			'kategori_id' => 'required',
 			'nama' => 'required',
@@ -122,12 +125,10 @@ class BarangController extends Controller
 			
 		]);
 
-		$barang = Barang::find($id);
+		$barang = Barang::findOrFail($id);
 		if ($request->hasFile('gambar')) {
 			$path = $request->file('gambar')->store('barang', 'public');
 			$barang->gambar = basename($path);
-		} else {
-			$barang->gambar = $request->input('gambar');
 		}
 		$barang->harga = $request->input("harga");
 		$barang->kategori_id = $request->input("kategori_id");
@@ -153,6 +154,25 @@ class BarangController extends Controller
 		$text = 'menghapus '.$this->title;//.' '.$barang->what;
 		$this->log($request, $text, ['barang.id' => $barang->id]);
 		return back()->with('message_success', 'Barang berhasil dihapus!');
+	}
+
+	private function validateGambarUpload(Request $request): void
+	{
+		$file = $request->file('gambar');
+		if (!$file || $file->isValid()) {
+			return;
+		}
+
+		$message = match ($file->getError()) {
+			UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE => 'Ukuran gambar melebihi batas upload server (maksimal 10 MB).',
+			UPLOAD_ERR_PARTIAL => 'Upload gambar tidak selesai. Silakan coba lagi.',
+			UPLOAD_ERR_NO_TMP_DIR => 'Folder temporary upload PHP tidak tersedia.',
+			UPLOAD_ERR_CANT_WRITE => 'PHP tidak dapat menulis file upload ke disk.',
+			UPLOAD_ERR_EXTENSION => 'Upload gambar dihentikan oleh ekstensi PHP.',
+			default => 'Upload gambar gagal (kode PHP: '.$file->getError().').',
+		};
+
+		throw ValidationException::withMessages(['gambar' => $message]);
 	}
 
 }

@@ -8,6 +8,8 @@ Route::controller(TransaksiController::class)->middleware(['web','auth'])->name(
 	Route::get('/transaksi/data', 'data')->name('data.index');
 	Route::get('/transaksi/create', 'create')->name('create');
 	Route::post('/transaksi', 'store')->name('store');
+	Route::get('/transaksi/{transaksi}/status', 'status')->name('status');
+	Route::patch('/transaksi/{transaksi}/status', 'updateStatus')->name('status.update');
 	Route::get('/transaksi/{transaksi}', 'show')->name('show');
 	Route::get('/transaksi/{transaksi}/edit', 'edit')->name('edit');
 	Route::patch('/transaksi/{transaksi}', 'update')->name('update');

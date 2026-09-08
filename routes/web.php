@@ -4,11 +4,24 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Modules\Menu\Models\Menu;
 use App\Modules\Barang\Models\Barang;
 use App\Modules\Kategori\Models\Kategori;
+use App\Modules\Transaksi\Models\Transaksi;
 
 Route::view('/', 'welcome')->name('frontend.index');
+
+Route::get('/riwayat-pesanan', function () {
+    $transaksi = Transaksi::where('users_id', Auth::id())
+        ->latest()
+        ->first();
+
+    return view('UsersKita.riwayat', [
+        'transaksi' => $transaksi,
+    ]);
+})->middleware(['web', 'auth'])->name('riwayat.pesanan');
 
 // Public home page for UsersKita — pass menu data so view has `$menus`
 Route::get('/home', function (Request $request) {
@@ -41,12 +54,17 @@ Route::get('/home', function (Request $request) {
     }
 
     $menus = $query->get()->map(function($m){
+        $imagePath = $m->gambar ? 'barang/'.basename($m->gambar) : null;
+        $imageUrl = $imagePath && Storage::disk('public')->exists($imagePath)
+            ? Storage::disk('public')->url($imagePath)
+            : asset('assets/images/samples/banana.jpg');
+
         return [
             'id' => $m->id,
             'name' => $m->nama,
             'price' => $m->harga,
             'stock' => $m->stok,
-            'image' => $m->gambar,
+            'image' => $imageUrl,
             'kategori_id' => $m->kategori_id,
         ];
     })->all();
