@@ -23,6 +23,17 @@ Route::get('/riwayat-pesanan', function () {
     ]);
 })->middleware(['web', 'auth'])->name('riwayat.pesanan');
 
+Route::get('/riwayat-pesanan/{transaksi}', function (Transaksi $transaksi) {
+    abort_unless($transaksi->users_id === Auth::id(), 403);
+
+    $items = \App\Modules\Detail_pemesanan\Models\Detail_pemesanan::query()
+        ->where('transaksi_id', $transaksi->id)
+        ->with('barang')
+        ->get();
+
+    return view('UsersKita.detail-pesanan', compact('transaksi', 'items'));
+})->middleware(['web', 'auth'])->name('riwayat.pesanan.detail');
+
 // Public home page for UsersKita — pass menu data so view has `$menus`
 Route::get('/home', function (Request $request) {
     $query = Barang::query();
