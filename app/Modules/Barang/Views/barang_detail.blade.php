@@ -31,7 +31,13 @@
                 <div class="row">
                     <div class="col-lg-10 offset-lg-2">
                         <div class="row kt-detail-grid">
-                            <div class='col-lg-2'><p>Gambar</p></div><div class='col-lg-10'><p class='fw-bold'>{{ $barang->gambar }}</p></div>
+                            <div class='col-lg-2'><p>Gambar</p></div><div class='col-lg-10'>
+                                @if($barang->gambar)
+                                    <img src="{{ asset('storage/barang/'.basename($barang->gambar)) }}" alt="{{ $barang->nama }}" style="max-width:240px; height:180px; object-fit:cover; border-radius:8px;">
+                                @else
+                                    <p class='text-muted'>Tidak ada gambar</p>
+                                @endif
+                            </div>
 									<div class='col-lg-2'><p>Harga</p></div><div class='col-lg-10'><p class='fw-bold'>{{ $barang->harga }}</p></div>
 									<div class='col-lg-2'><p>Kategori Id</p></div><div class='col-lg-10'><p class='fw-bold'>{{ $barang->kategori_id }}</p></div>
 									<div class='col-lg-2'><p>Nama</p></div><div class='col-lg-10'><p class='fw-bold'>{{ $barang->nama }}</p></div>
