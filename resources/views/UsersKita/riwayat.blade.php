@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,10 +37,6 @@
             font-family: "Segoe UI", sans-serif;
         }
 
-        /* =========================
-           CONTAINER UTAMA
-        ========================= */
-
         .phone {
             width: 100%;
             max-width: none;
@@ -50,27 +47,19 @@
             background: var(--cream);
         }
 
-        /* =========================
-           HEADER MERAH FULL WIDTH
-        ========================= */
+        /* -------------------------
+           HEADER
+        ------------------------- */
 
         header {
             width: 100%;
             min-height: 64px;
-
             display: flex;
             align-items: center;
             gap: 14px;
-
-            /*
-             * Merah full dari kiri sampai kanan.
-             * Isi header tetap memiliki batas agar rapi.
-             */
             padding: 22px max(20px, calc((100% - 960px) / 2));
-
             color: #fff;
             background: var(--maroon);
-
             border-bottom-left-radius: 18px;
             border-bottom-right-radius: 18px;
         }
@@ -79,10 +68,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-
             width: 28px;
             height: 28px;
-
             color: inherit;
             font-size: 22px;
             line-height: 1;
@@ -96,18 +83,16 @@
             font-weight: 700;
         }
 
-        /* =========================
+        /* -------------------------
            STEPPER
-        ========================= */
+        ------------------------- */
 
         .stepper {
             width: 100%;
             max-width: 640px;
-
             display: flex;
             align-items: flex-start;
             justify-content: center;
-
             margin: 0 auto;
             padding: 44px 26px 24px;
         }
@@ -115,28 +100,21 @@
         .step {
             display: flex;
             width: 64px;
-
             flex-direction: column;
             align-items: center;
-
             gap: 8px;
             flex-shrink: 0;
         }
 
         .icon {
             display: grid;
-
             width: 42px;
             height: 42px;
-
             place-items: center;
-
             border: 1.5px solid #262626;
             border-radius: 50%;
-
             color: #1c1c1c;
             background: #fff;
-
             transition:
                 transform .3s ease,
                 background .3s ease,
@@ -151,20 +129,13 @@
             display: block;
         }
 
-        /*
-         * HANYA STATUS YANG SEDANG AKTIF
-         * YANG BERWARNA MERAH.
-         */
-
+        /* Hanya status yang sedang aktif berwarna merah. */
         .step.active .icon {
             border-color: var(--maroon);
             color: #fff;
             background: var(--maroon);
-
             transform: scale(1.12);
-
-            box-shadow:
-                0 0 0 6px rgba(139, 30, 40, .15);
+            box-shadow: 0 0 0 6px rgba(139, 30, 40, .15);
         }
 
         .label {
@@ -179,38 +150,27 @@
             color: var(--maroon);
         }
 
-        /* =========================
-           GARIS STEPPER
-        ========================= */
-
         .line {
             flex: 1;
-
             max-width: 180px;
             min-width: 40px;
-
             height: 3px;
-
             margin-top: 20px;
-
             background: var(--idle);
-
-            transition:
-                background .3s ease;
+            transition: background .3s ease;
         }
 
         .line.active {
             background: var(--maroon);
         }
 
-        /* =========================
+        /* -------------------------
            CARD PESANAN
-        ========================= */
+        ------------------------- */
 
         .card-wrap {
             width: 100%;
             max-width: 960px;
-
             margin: 0 auto;
             padding: 8px 20px 30px;
         }
@@ -218,18 +178,11 @@
         .order-card {
             width: 100%;
             min-height: 180px;
-
             padding: 28px;
-
             border-radius: 18px;
-
             background: #fff;
-
-            box-shadow:
-                0 6px 18px #0000000f;
-
-            transition:
-                background .3s ease;
+            box-shadow: 0 6px 18px #0000000f;
+            transition: background .3s ease;
         }
 
         .order-card.gray {
@@ -240,20 +193,12 @@
             background: var(--green-bg);
         }
 
-        /* =========================
-           JUDUL CARD
-        ========================= */
-
         .order-card h2 {
             margin: 0 0 4px;
-
             color: var(--maroon);
-
             font-size: 18px;
             font-weight: 700;
-
-            transition:
-                color .3s ease;
+            transition: color .3s ease;
         }
 
         .order-card.gray h2 {
@@ -264,19 +209,11 @@
             color: var(--green-text);
         }
 
-        /* =========================
-           SUBTITLE
-        ========================= */
-
         .sub {
             margin-bottom: 16px;
-
             color: var(--maroon-soft);
-
             font-size: 12px;
-
-            transition:
-                color .3s ease;
+            transition: color .3s ease;
         }
 
         .order-card.gray .sub {
@@ -287,53 +224,43 @@
             color: #5cab7f;
         }
 
-        /* =========================
+        /* -------------------------
            ITEM
-        ========================= */
+        ------------------------- */
 
         .item-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-
             margin-bottom: 14px;
-
             color: #333;
-
             font-size: 14px;
             font-weight: 600;
-
             gap: 20px;
         }
 
         hr {
             margin: 14px 0;
-
             border: none;
             border-top: 1px solid rgba(0, 0, 0, .08);
         }
 
-        /* =========================
+        /* -------------------------
            BOTTOM CARD
-        ========================= */
+        ------------------------- */
 
         .bottom {
             display: flex;
             align-items: center;
             justify-content: space-between;
-
             margin-top: 4px;
-
             gap: 20px;
         }
 
         .subtotal-label {
             color: var(--maroon-soft);
-
             font-size: 12px;
-
-            transition:
-                color .3s ease;
+            transition: color .3s ease;
         }
 
         .order-card.gray .subtotal-label {
@@ -346,12 +273,9 @@
 
         .subtotal-value {
             color: var(--maroon);
-
             font-size: 15px;
             font-weight: 700;
-
-            transition:
-                color .3s ease;
+            transition: color .3s ease;
         }
 
         .order-card.gray .subtotal-value {
@@ -362,32 +286,24 @@
             color: var(--green-text);
         }
 
-        /* =========================
+        /* -------------------------
            BUTTON
-        ========================= */
+        ------------------------- */
 
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-
             padding: 10px 18px;
-
             border: 0;
             border-radius: 20px;
-
             color: #fff;
             background: var(--brown);
-
             font-size: 13px;
             font-weight: 600;
-
             text-decoration: none;
-
             cursor: pointer;
-
             white-space: nowrap;
-
             transition:
                 opacity .2s ease,
                 transform .2s ease;
@@ -398,23 +314,21 @@
             transform: translateY(-1px);
         }
 
-        /* =========================
+        /* -------------------------
            EMPTY
-        ========================= */
+        ------------------------- */
 
         .empty {
             color: #777;
-
             font-size: 14px;
             text-align: center;
         }
 
-        /* =========================
+        /* -------------------------
            TABLET
-        ========================= */
+        ------------------------- */
 
         @media (max-width: 700px) {
-
             header {
                 padding: 20px;
             }
@@ -434,16 +348,14 @@
             }
         }
 
-        /* =========================
+        /* -------------------------
            MOBILE
-        ========================= */
+        ------------------------- */
 
         @media (max-width: 500px) {
-
             header {
                 min-height: 60px;
                 padding: 18px 16px;
-
                 border-bottom-left-radius: 14px;
                 border-bottom-right-radius: 14px;
             }
@@ -513,12 +425,11 @@
             }
         }
 
-        /* =========================
+        /* -------------------------
            SMALL PHONE
-        ========================= */
+        ------------------------- */
 
         @media (max-width: 380px) {
-
             .stepper {
                 padding-left: 5px;
                 padding-right: 5px;
@@ -564,417 +475,187 @@
 
 <body>
 
-<div class="phone">
+    <div class="phone">
 
-    <!-- =========================
-         HEADER
-    ========================== -->
+        <header>
+            <a href="{{ route('home') }}" aria-label="Kembali">&#8592;</a>
+            <h1>Riwayat Pesanan</h1>
+        </header>
 
-    <header>
+        <!-- STEPPER: DIPROSES → SELESAI -->
+        <div class="stepper">
 
-        <a
-            href="{{ route('home') }}"
-            aria-label="Kembali"
-        >
-            &#8592;
-        </a>
-
-        <h1>
-            Riwayat Pesanan
-        </h1>
-
-    </header>
-
-
-    <!-- =========================
-         STEPPER
-    ========================== -->
-
-    <div class="stepper">
-
-        <!-- STEP 1 -->
-
-        <div class="step" data-step="0">
-
-            <div class="icon">
-
-                <!-- Panci -->
-
-                <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                >
-
-                    <line
-                        x1="9"
-                        y1="4.5"
-                        x2="9"
-                        y2="7"
-                    />
-
-                    <line
-                        x1="12"
-                        y1="3.5"
-                        x2="12"
-                        y2="7"
-                    />
-
-                    <line
-                        x1="15"
-                        y1="4.5"
-                        x2="15"
-                        y2="7"
-                    />
-
-                    <path d="M4 10.5h16"/>
-
-                    <path d="M3 9.5a1 1 0 0 1 1-1h1v2H4a1 1 0 0 1-1-1z"/>
-
-                    <path d="M21 9.5a1 1 0 0 0-1-1h-1v2h1a1 1 0 0 0 1-1z"/>
-
-                    <path d="M5.5 10.5v2a6.5 6.5 0 0 0 13 0v-2"/>
-
-                </svg>
-
-            </div>
-
-            <div class="label">
-                Diproses
-            </div>
-
-        </div>
-
-
-        <!-- GARIS -->
-
-        <div
-            class="line"
-            data-line="0"
-        ></div>
-
-
-        <!-- STEP 2 -->
-
-        <div class="step" data-step="1">
-
-            <div class="icon">
-
-                <!-- Kotak paket -->
-
-                <svg
-                    viewBox="0 0 24 24"
-                >
-
-                    <polygon
-                        points="12,3 19,7 12,11 5,7"
-                        fill="currentColor"
-                        fill-opacity="1"
-                    />
-
-                    <polygon
-                        points="5,7 12,11 12,20 5,16"
-                        fill="currentColor"
-                        fill-opacity="0.55"
-                    />
-
-                    <polygon
-                        points="19,7 12,11 12,20 19,16"
-                        fill="currentColor"
-                        fill-opacity="0.8"
-                    />
-
-                </svg>
-
-            </div>
-
-            <div class="label">
-                Diambil
-            </div>
-
-        </div>
-
-
-        <!-- GARIS -->
-
-        <div
-            class="line"
-            data-line="1"
-        ></div>
-
-
-        <!-- STEP 3 -->
-
-        <div class="step" data-step="2">
-
-            <div class="icon">
-
-                <!-- Centang -->
-
-                <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="3"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                >
-
-                    <path d="M20 6L9 17l-5-5"/>
-
-                </svg>
-
-            </div>
-
-            <div class="label">
-                Selesai
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         ORDER CARD
-    ========================== -->
-
-    <div class="card-wrap">
-
-        <div
-            class="order-card"
-            id="orderCard"
-        >
-
-            @if($transaksi)
-
-                <h2>
-                    Pesanan No.{{ $transaksi->kode_transaksi }}
-                </h2>
-
-
-                <div class="sub">
-                    {{ \Carbon\Carbon::parse($transaksi->tanggal)->translatedFormat('d F Y') }}
+            <!-- Step 1: Diproses -->
+            <div class="step" data-step="0">
+                <div class="icon">
+                    <!-- Panci -->
+                    <svg viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <line x1="9" y1="4.5" x2="9" y2="7"/>
+                        <line x1="12" y1="3.5" x2="12" y2="7"/>
+                        <line x1="15" y1="4.5" x2="15" y2="7"/>
+                        <path d="M4 10.5h16"/>
+                        <path d="M3 9.5a1 1 0 0 1 1-1h1v2H4a1 1 0 0 1-1-1z"/>
+                        <path d="M21 9.5a1 1 0 0 0-1-1h-1v2h1a1 1 0 0 0 1-1z"/>
+                        <path d="M5.5 10.5v2a6.5 6.5 0 0 0 13 0v-2"/>
+                    </svg>
                 </div>
 
+                <div class="label">Diproses</div>
+            </div>
 
-                <div class="item-row">
+            <div class="line" data-line="0"></div>
 
-                    <span>
-                        Total Pesanan
-                    </span>
-
-                    <span>
-                        Rp {{ number_format($transaksi->total, 0, ',', '.') }}
-                    </span>
-
+            <!-- Step 2: Selesai -->
+            <div class="step" data-step="1">
+                <div class="icon">
+                    <!-- Centang -->
+                    <svg viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="3"
+                         stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M20 6L9 17l-5-5"/>
+                    </svg>
                 </div>
 
+                <div class="label">Selesai</div>
+            </div>
 
-                <hr>
+        </div>
 
+        <div class="card-wrap">
 
-                <div class="bottom">
+            <div class="order-card" id="orderCard">
 
-                    <div>
+                @if($transaksi)
 
-                        <div class="subtotal-label">
-                            Subtotal:
-                        </div>
+                    <h2>
+                        Pesanan No.{{ $transaksi->kode_transaksi }}
+                    </h2>
 
-                        <div class="subtotal-value">
+                    <div class="sub">
+                        {{ \Carbon\Carbon::parse($transaksi->tanggal)->translatedFormat('d F Y') }}
+                    </div>
+
+                    <div class="item-row">
+                        <span>Total Pesanan</span>
+
+                        <span>
                             Rp {{ number_format($transaksi->total, 0, ',', '.') }}
+                        </span>
+                    </div>
+
+                    <hr>
+
+                    <div class="bottom">
+
+                        <div>
+                            <div class="subtotal-label">
+                                Subtotal:
+                            </div>
+
+                            <div class="subtotal-value">
+                                Rp {{ number_format($transaksi->total, 0, ',', '.') }}
+                            </div>
                         </div>
+
+                        <a
+                            class="btn"
+                            href="{{ route('riwayat.pesanan.detail', $transaksi) }}"
+                        >
+                            Lihat Detail
+                        </a>
 
                     </div>
 
+                @else
 
-                    <a
-                        class="btn"
-                        href="{{ route('riwayat.pesanan.detail', $transaksi) }}"
-                    >
-                        Lihat Detail
-                    </a>
+                    <div class="empty">
+                        Belum ada riwayat pesanan.
+                    </div>
 
-                </div>
+                @endif
 
-
-            @else
-
-                <div class="empty">
-                    Belum ada riwayat pesanan.
-                </div>
-
-            @endif
+            </div>
 
         </div>
 
     </div>
 
-</div>
+    @if($transaksi)
 
+    <script>
+        const orderId = @json($transaksi->id);
 
-@if($transaksi)
+        // Hanya ada 2 status:
+        // 0 = diproses
+        // 1 = selesai
+        const ORDER = ['diproses', 'selesai'];
 
-<script>
+        function setOrderStatus(status) {
+            // Kalau status lama masih "diambil",
+            // tampilkan sebagai diproses.
+            if (status === 'diambil') {
+                status = 'diproses';
+            }
 
-    const orderId = @json($transaksi->id);
+            const idx = ORDER.indexOf(status);
 
-    const ORDER = [
-        'diproses',
-        'diambil',
-        'selesai'
-    ];
+            if (idx < 0) {
+                return;
+            }
 
-    const LABEL = {
-        diproses: 'Sedang diproses',
-        diambil: 'Sedang diambil',
-        selesai: 'Pesanan selesai'
-    };
-
-
-    /*
-     * Hanya STEP yang sedang aktif
-     * yang diberi warna merah.
-     *
-     * Step sebelumnya tetap abu-abu.
-     */
-
-    function setOrderStatus(status) {
-
-        const idx = ORDER.indexOf(status);
-
-        if (idx < 0) {
-            return;
-        }
-
-
-        /*
-         * STEP
-         */
-
-        document
-            .querySelectorAll('.step')
-            .forEach((step, i) => {
-
-                step.classList.toggle(
-                    'active',
-                    i === idx
-                );
-
+            // Hanya step yang sedang aktif yang berwarna merah.
+            document.querySelectorAll('.step').forEach((step, i) => {
+                step.classList.toggle('active', i === idx);
             });
 
-
-        /*
-         * GARIS
-         */
-
-        document
-            .querySelectorAll('.line')
-            .forEach((line, i) => {
-
-                line.classList.toggle(
-                    'active',
-                    i <= idx
-                );
-
+            // Garis aktif setelah mencapai step berikutnya.
+            document.querySelectorAll('.line').forEach((line, i) => {
+                line.classList.toggle('active', i < idx);
             });
 
+            const card = document.getElementById('orderCard');
 
-        /*
-         * CARD
-         */
+            card.classList.remove('gray', 'green');
 
-        const card =
-            document.getElementById('orderCard');
-
-        card.classList.remove(
-            'gray',
-            'green'
-        );
-
-
-        if (status === 'diambil') {
-            card.classList.add('gray');
+            if (status === 'selesai') {
+                card.classList.add('green');
+            }
         }
 
-
-        if (status === 'selesai') {
-            card.classList.add('green');
-        }
-
-    }
-
-
-    /*
-     * AMBIL STATUS PESANAN
-     */
-
-    function loadOrderStatus() {
-
-        return fetch(
-            `/transaksi/${orderId}/status`,
-            {
+        function loadOrderStatus() {
+            return fetch(`/transaksi/${orderId}/status`, {
                 headers: {
                     Accept: 'application/json'
                 }
-            }
-        )
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Status pesanan tidak dapat diambil.');
+                }
 
-        .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                setOrderStatus(data.status);
+            });
+        }
 
-            if (!response.ok) {
-                throw new Error(
-                    'Status pesanan tidak dapat diambil.'
-                );
-            }
+        loadOrderStatus().catch(() => {});
 
-            return response.json();
+        setInterval(() => {
+            loadOrderStatus().catch(() => {});
+        }, 5000);
+    </script>
 
-        })
-
-        .then(data => {
-
-            setOrderStatus(
-                data.status
-            );
-
-        });
-
-    }
-
-
-    /*
-     * LOAD PERTAMA
-     */
-
-    loadOrderStatus()
-        .catch(error => {
-
-            console.error(
-                error
-            );
-
-        });
-
-
-    /*
-     * UPDATE SETIAP 5 DETIK
-     */
-
-    setInterval(() => {
-
-        loadOrderStatus()
-            .catch(() => {});
-
-    }, 5000);
-
-</script>
-
-@endif
+    @endif
 
 </body>
 </html>

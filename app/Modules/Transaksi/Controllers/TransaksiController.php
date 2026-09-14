@@ -41,7 +41,7 @@ class TransaksiController extends Controller
 		
 		$data['forms'] = array(
 			'kode_transaksi' => ['label' => 'Kode Transaksi', 'type' => 'text', 'value' => old("kode_transaksi"), 'required' => true],
-			'status' => ['label' => 'Status', 'type' => 'select', 'value' => old("status", 'diproses'), 'required' => true, 'options' => ['diproses' => 'Diproses', 'diambil' => 'Diambil', 'selesai' => 'Selesai']],
+			'status' => ['label' => 'Status', 'type' => 'select', 'value' => old("status", 'diproses'), 'required' => true, 'options' => ['diproses' => 'Diproses', 'selesai' => 'Selesai']],
 			'tanggal' => ['label' => 'Tanggal', 'type' => 'text', 'value' => old("tanggal"), 'required' => true, 'class' => 'datepicker'],
 			'total' => ['label' => 'Total', 'type' => 'text', 'value' => old("total"), 'required' => true],
 			'users_id' => ['label' => 'Users Id', 'type' => 'select', 'value' => old("users_id"), 'required' => true, 'options' => $ref_users_kita->all(), 'class' => 'select2'],
@@ -56,7 +56,7 @@ class TransaksiController extends Controller
 	{
 		$this->validate($request, [
 			'kode_transaksi' => 'required',
-			'status' => 'required|in:diproses,diambil,selesai',
+			'status' => 'required|in:diproses,selesai',
 			'tanggal' => 'required',
 			'total' => 'required',
 			'users_id' => 'required',
@@ -94,7 +94,7 @@ class TransaksiController extends Controller
 		
 		$data['forms'] = array(
 			'kode_transaksi' => ['label' => 'Kode Transaksi', 'type' => 'text', 'value' => $transaksi->kode_transaksi, 'required' => true, 'id' => 'kode_transaksi'],
-			'status' => ['label' => 'Status', 'type' => 'select', 'value' => $transaksi->status, 'required' => true, 'id' => 'status', 'options' => ['diproses' => 'Diproses', 'diambil' => 'Diambil', 'selesai' => 'Selesai']],
+			'status' => ['label' => 'Status', 'type' => 'select', 'value' => $transaksi->status, 'required' => true, 'id' => 'status', 'options' => ['diproses' => 'Diproses', 'selesai' => 'Selesai']],
 			'tanggal' => ['label' => 'Tanggal', 'type' => 'text', 'value' => $transaksi->tanggal, 'required' => true, 'class' => 'datepicker', 'id' => 'tanggal'],
 			'total' => ['label' => 'Total', 'type' => 'text', 'value' => $transaksi->total, 'required' => true, 'id' => 'total'],
 			'users_id' => ['label' => 'Users Id', 'type' => 'select', 'value' => $transaksi->users_id, 'required' => true, 'options' => $ref_users_kita->all(), 'class' => 'select2', 'id' => 'users_id'],
@@ -110,7 +110,7 @@ class TransaksiController extends Controller
 	{
 		$this->validate($request, [
 			'kode_transaksi' => 'required',
-			'status' => 'required|in:diproses,diambil,selesai',
+			'status' => 'required|in:diproses,selesai',
 			'tanggal' => 'required',
 			'total' => 'required',
 			'users_id' => 'required',
@@ -155,7 +155,7 @@ class TransaksiController extends Controller
 	public function updateStatus(Request $request, $id)
 	{
 		$this->validate($request, [
-			'status' => 'required|in:diproses,diambil,selesai',
+			'status' => 'required|in:diproses,selesai',
 		]);
 
 		$transaksi = Transaksi::findOrFail($id);

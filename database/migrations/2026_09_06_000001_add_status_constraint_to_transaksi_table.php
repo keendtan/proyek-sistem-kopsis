@@ -13,11 +13,11 @@ return new class extends Migration
     public function up(): void
     {
         DB::table('transaksi')
-            ->whereNotIn('status', ['diproses', 'diambil', 'selesai'])
+            ->whereNotIn('status', ['diproses', 'selesai'])
             ->update(['status' => 'diproses']);
 
         Schema::table('transaksi', function (Blueprint $table) {
-            $table->enum('status', ['diproses', 'diambil', 'selesai'])
+            $table->enum('status', ['diproses','selesai'])
                 ->default('diproses')
                 ->change();
         });
