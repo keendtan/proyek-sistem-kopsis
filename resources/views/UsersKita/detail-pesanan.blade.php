@@ -519,7 +519,7 @@
               </span>
 
               <span>
-                {{ optional($transaksi->created_at)->format('H.i') ?? '-' }}
+                {{ optional($transaksi->created_at)->format('H:i') ?? '-' }} WIB
               </span>
 
             </div>

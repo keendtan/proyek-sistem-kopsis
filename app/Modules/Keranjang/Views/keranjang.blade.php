@@ -670,6 +670,13 @@
 
     totalItem.textContent = formatRupiah(total);
 
+    const cart = getCart();
+    const cartItem = cart.find((entry) => String(entry.id) === String(item.dataset.id));
+    if (cartItem) {
+        cartItem.qty = qty;
+        saveCart(cart);
+    }
+
     updateSummary();
 }
 
