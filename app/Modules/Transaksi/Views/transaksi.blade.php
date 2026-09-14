@@ -59,15 +59,24 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->kode_transaksi }}</td>
-									<td>{{ $item->status }}</td>
+                                    <td class="transaction-status">{{ ucfirst($item->status) }}</td>
 									<td>{{ $item->tanggal }}</td>
 									<td>{{ $item->total }}</td>
 									<td>{{ $item->users_id }}</td>
 									
                                     <td>
-										{!! button('transaksi.show','', $item->id) !!}
-										{!! button('transaksi.edit', $title, $item->id) !!}
-                                        {!! button('transaksi.destroy', $title, $item->id) !!}
+                                        <select
+                                            class="form-select transaction-status-select"
+                                            data-url="{{ route('transaksi.status.update', $item->id) }}"
+                                            data-status-target=".transaction-status"
+                                            aria-label="Ubah status transaksi {{ $item->kode_transaksi }}"
+                                        >
+                                            <option value="diproses" @selected($item->status === 'diproses')>Diproses</option>
+                                            <option value="selesai" @selected($item->status === 'selesai')>Selesai</option>
+                                        </select>
+                                        <div class="mt-2">
+                                            {!! button('transaksi.destroy', 'Transaksi', $item->id) !!}
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
@@ -90,4 +99,42 @@
 @endsection
 
 @section('inline-js')
+<script>
+    document.querySelectorAll('.transaction-status-select').forEach((select) => {
+        select.addEventListener('change', async function () {
+            const previousStatus = this.dataset.previousStatus;
+            const statusCell = this.closest('tr').querySelector(this.dataset.statusTarget);
+
+            this.disabled = true;
+
+            try {
+                const response = await fetch(this.dataset.url, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    },
+                    body: JSON.stringify({ status: this.value }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Status transaksi gagal diperbarui.');
+                }
+
+                const result = await response.json();
+                this.value = result.status;
+                this.dataset.previousStatus = result.status;
+                statusCell.textContent = result.status.charAt(0).toUpperCase() + result.status.slice(1);
+            } catch (error) {
+                this.value = previousStatus;
+                alert(error.message);
+            } finally {
+                this.disabled = false;
+            }
+        });
+
+        select.dataset.previousStatus = select.value;
+    });
+</script>
 @endsection
