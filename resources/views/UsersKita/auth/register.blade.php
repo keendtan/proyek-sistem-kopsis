@@ -44,7 +44,7 @@
             width: 62px;
             height: 62px;
             border-radius: 16px;
-            background: #1c1414;
+            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -190,6 +190,7 @@
             }
 
             .brand-logo {
+                color: #fff;
                 width: 52px;
                 height: 52px;
                 margin-bottom: 16px;
@@ -213,7 +214,9 @@
 <body>
     <div class="split-wrapper">
         <section class="brand-panel" aria-label="Tentang Cravecourt">
-            <div class="brand-logo">🌺</div>
+            <div class="brand-logo">
+                <img src="{{ asset('assets/images/LOGO CRAVECOURT.png') }}" alt="Logo" style="width: 45px; height: 45px;">
+            </div>
             <div class="brand-name">Cravecourt</div>
             <p class="brand-tagline">
                 Sistem koperasi sekolah modern. Pesan online, bayar mudah, ambil tanpa antre.

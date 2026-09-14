@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 class Transaksi extends Model
 {
 	use SoftDeletes;
@@ -23,5 +22,5 @@ class Transaksi extends Model
 		return $this->hasMany(Detail_pemesanan::class, 'transaksi_id');
 	}
 
-	
+
 }

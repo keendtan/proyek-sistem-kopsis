@@ -58,7 +58,13 @@
                             @forelse ($data as $item)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $item->gambar }}</td>
+                                    <td>
+                                        @if($item->gambar)
+                                            <img src="{{ asset('storage/barang/'.basename($item->gambar)) }}" alt="{{ $item->nama }}" style="width:72px; height:72px; object-fit:cover; border-radius:8px;">
+                                        @else
+                                            <span class="text-muted">Tidak ada gambar</span>
+                                        @endif
+                                    </td>
 									<td>{{ $item->harga }}</td>
 									<td>{{ $item->kategori->nama_kategori }}</td>
 									<td>{{ $item->nama }}</td>

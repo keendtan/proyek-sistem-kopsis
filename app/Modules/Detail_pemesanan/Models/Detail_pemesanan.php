@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 class Detail_pemesanan extends Model
 {
 	use SoftDeletes;
@@ -18,10 +17,10 @@ class Detail_pemesanan extends Model
 	protected $table      = 'detail_pemesanan';
 	protected $fillable   = ['*'];
 
+
 	public function barang()
 	{
 		return $this->belongsTo(Barang::class, 'barang_id');
 	}
 
-	
 }
