@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="id">
 
@@ -24,8 +23,15 @@
             box-sizing: border-box;
         }
 
+        html,
         body {
+            width: 100%;
+            min-height: 100%;
             margin: 0;
+            padding: 0;
+        }
+
+        body {
             min-height: 100vh;
             background: var(--cream);
             font-family: "Segoe UI", sans-serif;
@@ -33,36 +39,60 @@
 
         .phone {
             width: 100%;
+            max-width: none;
             min-height: 100vh;
+            margin: 0;
+            padding: 0;
             overflow: hidden;
             background: var(--cream);
         }
 
+        /* -------------------------
+           HEADER
+        ------------------------- */
+
         header {
+            width: 100%;
+            min-height: 64px;
             display: flex;
             align-items: center;
             gap: 14px;
             padding: 22px max(20px, calc((100% - 960px) / 2));
             color: #fff;
             background: var(--maroon);
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
         }
 
         header a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
             color: inherit;
             font-size: 22px;
+            line-height: 1;
             text-decoration: none;
+            flex-shrink: 0;
         }
 
-        h1 {
+        header h1 {
             margin: 0;
             font-size: 19px;
+            font-weight: 700;
         }
 
+        /* -------------------------
+           STEPPER
+        ------------------------- */
+
         .stepper {
+            width: 100%;
+            max-width: 640px;
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            max-width: 640px;
             margin: 0 auto;
             padding: 44px 26px 24px;
         }
@@ -73,6 +103,7 @@
             flex-direction: column;
             align-items: center;
             gap: 8px;
+            flex-shrink: 0;
         }
 
         .icon {
@@ -84,7 +115,8 @@
             border-radius: 50%;
             color: #1c1c1c;
             background: #fff;
-            transition: transform .3s ease,
+            transition:
+                transform .3s ease,
                 background .3s ease,
                 border-color .3s ease,
                 color .3s ease,
@@ -97,6 +129,7 @@
             display: block;
         }
 
+        /* Hanya status yang sedang aktif berwarna merah. */
         .step.active .icon {
             border-color: var(--maroon);
             color: #fff;
@@ -109,6 +142,8 @@
             color: var(--idle);
             font-size: 12px;
             font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
         }
 
         .step.active .label {
@@ -118,6 +153,7 @@
         .line {
             flex: 1;
             max-width: 180px;
+            min-width: 40px;
             height: 3px;
             margin-top: 20px;
             background: var(--idle);
@@ -128,13 +164,19 @@
             background: var(--maroon);
         }
 
+        /* -------------------------
+           CARD PESANAN
+        ------------------------- */
+
         .card-wrap {
+            width: 100%;
             max-width: 960px;
             margin: 0 auto;
             padding: 8px 20px 30px;
         }
 
         .order-card {
+            width: 100%;
             min-height: 180px;
             padding: 28px;
             border-radius: 18px;
@@ -155,6 +197,7 @@
             margin: 0 0 4px;
             color: var(--maroon);
             font-size: 18px;
+            font-weight: 700;
             transition: color .3s ease;
         }
 
@@ -181,37 +224,42 @@
             color: #5cab7f;
         }
 
-        .empty {
-            color: #777;
-            font-size: 14px;
-            text-align: center;
-        }
+        /* -------------------------
+           ITEM
+        ------------------------- */
 
         .item-row {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            font-weight: 600;
-            font-size: 14px;
-            color: #333;
             margin-bottom: 14px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 600;
+            gap: 20px;
         }
 
         hr {
+            margin: 14px 0;
             border: none;
             border-top: 1px solid rgba(0, 0, 0, .08);
-            margin: 14px 0;
         }
+
+        /* -------------------------
+           BOTTOM CARD
+        ------------------------- */
 
         .bottom {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-top: 4px;
+            gap: 20px;
         }
 
         .subtotal-label {
-            font-size: 12px;
             color: var(--maroon-soft);
+            font-size: 12px;
             transition: color .3s ease;
         }
 
@@ -224,9 +272,9 @@
         }
 
         .subtotal-value {
-            font-weight: 700;
-            font-size: 15px;
             color: var(--maroon);
+            font-size: 15px;
+            font-weight: 700;
             transition: color .3s ease;
         }
 
@@ -238,14 +286,189 @@
             color: var(--green-text);
         }
 
+        /* -------------------------
+           BUTTON
+        ------------------------- */
+
         .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             padding: 10px 18px;
             border: 0;
             border-radius: 20px;
             color: #fff;
             background: var(--brown);
+            font-size: 13px;
             font-weight: 600;
+            text-decoration: none;
             cursor: pointer;
+            white-space: nowrap;
+            transition:
+                opacity .2s ease,
+                transform .2s ease;
+        }
+
+        .btn:hover {
+            opacity: .9;
+            transform: translateY(-1px);
+        }
+
+        /* -------------------------
+           EMPTY
+        ------------------------- */
+
+        .empty {
+            color: #777;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* -------------------------
+           TABLET
+        ------------------------- */
+
+        @media (max-width: 700px) {
+            header {
+                padding: 20px;
+            }
+
+            .stepper {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .line {
+                min-width: 30px;
+            }
+
+            .card-wrap {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+        }
+
+        /* -------------------------
+           MOBILE
+        ------------------------- */
+
+        @media (max-width: 500px) {
+            header {
+                min-height: 60px;
+                padding: 18px 16px;
+                border-bottom-left-radius: 14px;
+                border-bottom-right-radius: 14px;
+            }
+
+            header h1 {
+                font-size: 17px;
+            }
+
+            header a {
+                font-size: 21px;
+            }
+
+            .stepper {
+                padding: 34px 10px 22px;
+            }
+
+            .step {
+                width: 55px;
+            }
+
+            .icon {
+                width: 38px;
+                height: 38px;
+            }
+
+            .icon svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .label {
+                font-size: 10px;
+            }
+
+            .line {
+                min-width: 20px;
+                height: 3px;
+                margin-top: 18px;
+            }
+
+            .card-wrap {
+                padding: 8px 12px 28px;
+            }
+
+            .order-card {
+                min-height: 170px;
+                padding: 22px 18px;
+                border-radius: 16px;
+            }
+
+            .order-card h2 {
+                font-size: 16px;
+                word-break: break-word;
+            }
+
+            .item-row {
+                font-size: 13px;
+            }
+
+            .bottom {
+                align-items: flex-end;
+            }
+
+            .btn {
+                padding: 9px 14px;
+                font-size: 12px;
+            }
+        }
+
+        /* -------------------------
+           SMALL PHONE
+        ------------------------- */
+
+        @media (max-width: 380px) {
+            .stepper {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+
+            .step {
+                width: 48px;
+            }
+
+            .icon {
+                width: 35px;
+                height: 35px;
+            }
+
+            .icon svg {
+                width: 17px;
+                height: 17px;
+            }
+
+            .label {
+                font-size: 9px;
+            }
+
+            .line {
+                min-width: 15px;
+            }
+
+            .order-card {
+                padding: 20px 15px;
+            }
+
+            .bottom {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -259,7 +482,7 @@
             <h1>Riwayat Pesanan</h1>
         </header>
 
-        <!-- STEPPER: HANYA DIPROSES → SELESAI -->
+        <!-- STEPPER: DIPROSES → SELESAI -->
         <div class="stepper">
 
             <!-- Step 1: Diproses -->
@@ -272,7 +495,6 @@
                          stroke-width="2"
                          stroke-linecap="round"
                          stroke-linejoin="round">
-
                         <line x1="9" y1="4.5" x2="9" y2="7"/>
                         <line x1="12" y1="3.5" x2="12" y2="7"/>
                         <line x1="15" y1="4.5" x2="15" y2="7"/>
@@ -280,7 +502,6 @@
                         <path d="M3 9.5a1 1 0 0 1 1-1h1v2H4a1 1 0 0 1-1-1z"/>
                         <path d="M21 9.5a1 1 0 0 0-1-1h-1v2h1a1 1 0 0 0 1-1z"/>
                         <path d="M5.5 10.5v2a6.5 6.5 0 0 0 13 0v-2"/>
-
                     </svg>
                 </div>
 
@@ -299,9 +520,7 @@
                          stroke-width="3"
                          stroke-linecap="round"
                          stroke-linejoin="round">
-
                         <path d="M20 6L9 17l-5-5"/>
-
                     </svg>
                 </div>
 
@@ -346,9 +565,12 @@
                             </div>
                         </div>
 
-                        <button class="btn" type="button">
+                        <a
+                            class="btn"
+                            href="{{ route('riwayat.pesanan.detail', $transaksi) }}"
+                        >
                             Lihat Detail
-                        </button>
+                        </a>
 
                     </div>
 
@@ -377,23 +599,24 @@
         const ORDER = ['diproses', 'selesai'];
 
         function setOrderStatus(status) {
-
             // Kalau status lama masih "diambil",
-            // kita tampilkan sebagai diproses.
+            // tampilkan sebagai diproses.
             if (status === 'diambil') {
                 status = 'diproses';
             }
 
             const idx = ORDER.indexOf(status);
 
-            if (idx < 0) return;
+            if (idx < 0) {
+                return;
+            }
 
-            // Hanya step yang sedang aktif yang berwarna merah
+            // Hanya step yang sedang aktif yang berwarna merah.
             document.querySelectorAll('.step').forEach((step, i) => {
                 step.classList.toggle('active', i === idx);
             });
 
-            // Garis aktif jika sudah mencapai step tersebut
+            // Garis aktif setelah mencapai step berikutnya.
             document.querySelectorAll('.line').forEach((line, i) => {
                 line.classList.toggle('active', i < idx);
             });
@@ -408,27 +631,20 @@
         }
 
         function loadOrderStatus() {
-
             return fetch(`/transaksi/${orderId}/status`, {
                 headers: {
                     Accept: 'application/json'
                 }
             })
-
             .then(response => {
-
                 if (!response.ok) {
                     throw new Error('Status pesanan tidak dapat diambil.');
                 }
 
                 return response.json();
-
             })
-
             .then(data => {
-
                 setOrderStatus(data.status);
-
             });
         }
 
