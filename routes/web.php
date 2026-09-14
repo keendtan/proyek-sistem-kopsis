@@ -11,7 +11,7 @@ use App\Modules\Barang\Models\Barang;
 use App\Modules\Kategori\Models\Kategori;
 use App\Modules\Transaksi\Models\Transaksi;
 
-Route::view('/', 'welcome')->name('frontend.index');
+Route::redirect('/', '/home')->name('frontend.index');
 
 Route::get('/riwayat-pesanan', function () {
     $transaksi = Transaksi::where('users_id', Auth::id())
