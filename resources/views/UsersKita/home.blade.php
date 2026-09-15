@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Makanan</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
             --maroon: #8c2b2b;
@@ -313,12 +314,7 @@
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari menu makanan..." aria-label="Cari menu">
                 </form>
 
-                <a href="{{ route('profile.edit') }}" class="icon-btn" aria-label="Profil">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <circle cx="12" cy="8" r="4"></circle>
-                        <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
-                    </svg>
-                </a>
+                <x-profile-menu />
 
                 <a href="{{ route('keranjang.index') }}" class="icon-btn" aria-label="Keranjang">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
