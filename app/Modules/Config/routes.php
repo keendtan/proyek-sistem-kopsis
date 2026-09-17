@@ -1,15 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Modules\Config\Controllers\ConfigController;
+use App\Modules\Users_kita\Controllers\Users_kitaController;
 
-Route::controller(ConfigController::class)->middleware(['web','auth'])->name('config.')->group(function(){
-	Route::get('/config', 'index')->name('index');
-	Route::get('/config/data', 'data')->name('data.index');
-	Route::get('/config/create', 'create')->name('create');
-	Route::post('/config', 'store')->name('store');
-	Route::get('/config/{config}', 'show')->name('show');
-	Route::get('/config/{config}/edit', 'edit')->name('edit');
-	Route::patch('/config/{config}', 'update')->name('update');
-	Route::get('/config/{config}/delete', 'destroy')->name('destroy');
+Route::controller(Users_kitaController::class)->middleware(['web','auth'])->name('users_kita.')->group(function(){
+	Route::get('/users_kita', 'index')->name('index');
+	Route::get('/users_kita/data', 'data')->name('data.index');
+	Route::get('/users_kita/create', 'create')->name('create');
+	Route::post('/users_kita', 'store')->name('store');
+	Route::get('/users_kita/{users_kita}', 'show')->name('show');
+	Route::get('/users_kita/{users_kita}/edit', 'edit')->name('edit');
+	Route::patch('/users_kita/{users_kita}', 'update')->name('update');
+	Route::get('/users_kita/{users_kita}/delete', 'destroy')->name('destroy');
 });
+
+Route::get('/users_kita', [Users_kitaController::class, 'index'])
+	->middleware(['web', 'auth'])
+	->name('users.kita.index');
