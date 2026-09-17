@@ -18,7 +18,7 @@
 
             <div class="mx-auto grid min-h-[calc(100vh-92px)] w-full max-w-6xl items-center gap-10 px-6 py-12 sm:grid-cols-[220px_1fr] sm:px-12 lg:gap-16 lg:px-20">
                 <div class="flex justify-center">
-                    <img src="{{ asset('assets/images/faces/1.jpg') }}" alt="Foto profil {{ Auth::user()->name }}" class="h-40 w-40 rounded-full object-cover ring-8 ring-[#e7edf4] sm:h-48 sm:w-48">
+                    <img src="{{ asset('assets/images/faces/1.jpg') }}" alt="Foto profil {{ Auth::user()->name }}" class="h-40 w-40 rounded-full object-cover ring-8 ring-[#e7edf4] sm:h-48 sm:w-48" style="width: 10rem; height: 10rem; max-width: 10rem; object-fit: cover;">
                 </div>
                 <div class="space-y-3">
         <div class="grid grid-cols-[105px_1fr] items-center gap-3 sm:grid-cols-[115px_1fr]">

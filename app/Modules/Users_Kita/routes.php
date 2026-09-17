@@ -13,3 +13,7 @@ Route::controller(Users_kitaController::class)->middleware(['web','auth'])->name
 	Route::patch('/users_kita/{users_kita}', 'update')->name('update');
 	Route::get('/users_kita/{users_kita}/delete', 'destroy')->name('destroy');
 });
+
+Route::get('/users_kita', [Users_kitaController::class, 'index'])
+	->middleware(['web', 'auth'])
+	->name('users.kita.index');
