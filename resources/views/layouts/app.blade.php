@@ -18,12 +18,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/pages/fontawesome.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/tempus-dominus.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.5/css/selectize.bootstrap5.min.css"/>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <script src="{{ asset('assets/js/sweetalert.js') }}"></script>
     <style>
-        [x-cloak] { display: none !important; }
-
         .ck-editor__editable {
             min-height: 300px;
         }
@@ -90,8 +87,44 @@
                                     </ul>
                                 </li>
                             </ul>
+                            <div class="dropdown">
+                                <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="user-menu d-flex">
+                                        <div class="user-name text-end me-3">
+                                            <h6 class="mb-0 text-gray-700">{{ Auth::user()->name }}</h6>
+                                            <p class="mb-0 text-sm text-gray-700">{{ get('active_role') }}</p>
+                                        </div>
+                                        <div class="user-img d-flex align-items-center">
+                                            <div class="avatar avatar-md bg-primary">
+                                                <div class="avatar-content">
+                                                    {{ Auth::user()->initials()}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" style="min-width: 11rem;">
+                                    <li>
+                                        <h6 class="dropdown-header">Hello, {{ Auth::user()->name }}</h6>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> My Profile</a></li>
+                                    @if (session('active_role'))
+                                        <li><a class="dropdown-item" href="{{ route('dashboard.change.role', get('active_role_id')) }}"><i class="icon-mid bi bi-arrow-clockwise me-2"></i> Flush Session</a></li>
+                                    @endif
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button class="dropdown-item" onclick="event.preventDefault();this.closest('form').submit();">
+                                                <i class="icon-mid bi bi-box-arrow-left me-2"></i> Logout
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <x-profile-menu />
                     </div>
                 </nav>
                 <hr class="m-0">
