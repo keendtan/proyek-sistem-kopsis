@@ -7,8 +7,7 @@
         </span>
     </button>
 
-    <template x-teleport="body">
-        <div x-cloak x-show="openProfile" x-transition.opacity @keydown.escape.window="openProfile = false" class="fixed inset-0 z-[100] min-h-[100dvh] overflow-y-auto bg-[#fffaf7]" role="dialog" aria-modal="true" aria-labelledby="profile-title">
+    <div x-cloak x-show="openProfile" x-transition.opacity @keydown.escape.window="openProfile = false" class="fixed inset-0 z-[100] min-h-[100dvh] overflow-y-auto bg-[#fffaf7]" role="dialog" aria-modal="true" aria-labelledby="profile-title">
             <div class="min-h-[100dvh] w-full">
                 <div class="rounded-b-[22px] bg-[#b52329] px-5 py-5 text-white sm:px-10">
                     <div class="mx-auto flex w-full max-w-5xl items-center gap-4">
@@ -50,9 +49,7 @@
                     </section>
                 </div>
             </div>
-        </div>
-
-    </template>
+    </div>
 
     <div x-cloak x-show="openLogoutConfirm" class="fixed inset-0 z-[110] flex min-h-[100dvh] items-center justify-center bg-black/40 px-4" role="dialog" aria-modal="true" aria-labelledby="logout-title">
             <div @click.outside="openLogoutConfirm = false" class="w-full max-w-[435px] rounded-3xl bg-white px-9 py-9 text-center shadow-xl">
