@@ -428,7 +428,7 @@
             &#8592;
           </a>
 
-          <h1>Detail Pemesanan</h1>
+          <h1>Detail Status Pesanan</h1>
 
         </div>
 

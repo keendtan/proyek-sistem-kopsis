@@ -26,7 +26,7 @@
 
         .app {
             width: 100%;
-            max-width: 1280px;
+            max-width: 1440px;
             margin: 0 auto;
             min-height: 100vh;
             background: var(--cream);
@@ -44,7 +44,7 @@
             align-items: center;
             gap: 10px;
             width: 100%;
-            max-width: 1180px;
+            max-width: 1360px;
             margin: 0 auto;
         }
 
@@ -215,6 +215,44 @@
             grid-column: 1 / -1;
         }
 
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 0 14px 28px;
+        }
+
+        .pagination a,
+        .pagination span {
+            min-width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .pagination a {
+            background: var(--pill-inactive);
+            color: var(--text-dark);
+        }
+
+        .pagination a:hover,
+        .pagination .active {
+            background: var(--maroon);
+            color: #fff;
+        }
+
+        .pagination .disabled {
+            background: #f1ebeb;
+            color: #b9aaaa;
+        }
+
         @media (max-width: 380px) {
             .menu-grid { grid-template-columns: repeat(2, 1fr); }
         }
@@ -240,7 +278,7 @@
             .icon-btn svg { width: 20px; height: 20px; }
 
             .search-bar {
-                max-width: 720px;
+                max-width: none;
                 padding: 13px 18px;
             }
 
@@ -307,6 +345,9 @@
                 </div>
 
                 <form action="{{ route('home') }}" method="GET" class="search-bar">
+                    @if(request('kategori'))
+                        <input type="hidden" name="kategori" value="{{ request('kategori') }}">
+                    @endif
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9a8b8b" stroke-width="2" aria-hidden="true">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -326,6 +367,13 @@
                         <span class="badge">{{ $cartCount }}</span>
                     @endif
                 </a>
+
+                <a href="{{ route('riwayat.pesanan') }}" class="icon-btn" aria-label="Riwayat Pesanan" title="Riwayat Pesanan">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M4 5h16v14H4zM8 9h8M8 13h8M8 17h4" />
+                    </svg>
+                </a>
+
             </div>
         </header>
 
@@ -336,7 +384,6 @@
                     {{ $category['nama'] }}
                 </a>
             @endforeach
-            <a href="{{ route('riwayat.pesanan') }}" class="category-pill {{ request()->routeIs('riwayat.pesanan') ? 'active' : '' }}">Riwayat</a>
         </nav>
 
         <main class="menu-grid">
@@ -368,6 +415,30 @@
                 <div class="empty-state">Menu tidak ditemukan.</div>
             @endforelse
         </main>
+
+        @if ($menus->hasPages())
+            <nav class="pagination" aria-label="Navigasi halaman produk">
+                @if ($menus->onFirstPage())
+                    <span class="disabled" aria-disabled="true">Sebelumnya</span>
+                @else
+                    <a href="{{ $menus->previousPageUrl() }}" rel="prev">Sebelumnya</a>
+                @endif
+
+                @foreach ($menus->getUrlRange(1, $menus->lastPage()) as $page => $url)
+                    @if ($page == $menus->currentPage())
+                        <span class="active" aria-current="page">{{ $page }}</span>
+                    @else
+                        <a href="{{ $url }}">{{ $page }}</a>
+                    @endif
+                @endforeach
+
+                @if ($menus->hasMorePages())
+                    <a href="{{ $menus->nextPageUrl() }}" rel="next">Berikutnya</a>
+                @else
+                    <span class="disabled" aria-disabled="true">Berikutnya</span>
+                @endif
+            </nav>
+        @endif
     </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

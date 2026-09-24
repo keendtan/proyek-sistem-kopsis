@@ -13,10 +13,32 @@ use App\Modules\Transaksi\Models\Transaksi;
 
 Route::redirect('/', '/home')->name('frontend.index');
 
-Route::get('/riwayat-pesanan', function () {
+Route::get('/status-pesanan', function () {
     $transaksi = Transaksi::where('users_id', Auth::id())
         ->latest()
         ->first();
+
+    if (!$transaksi) {
+        return redirect()->route('riwayat.pesanan')
+            ->with('message_info', 'Belum ada pesanan untuk ditampilkan.');
+    }
+
+    return view('UsersKita.status-pesanan', compact('transaksi'));
+})->middleware(['web', 'auth'])->name('status.pesanan.latest');
+
+Route::get('/status-pesanan/{transaksi}', function (Transaksi $transaksi) {
+    abort_unless($transaksi->users_id === Auth::id(), 403);
+
+    return view('UsersKita.status-pesanan', [
+        'transaksi' => $transaksi,
+    ]);
+})->middleware(['web', 'auth'])->name('status.pesanan');
+
+Route::get('/riwayat-pesanan', function () {
+    $transaksi = Transaksi::where('users_id', Auth::id())
+        ->with('details.barang')
+        ->latest()
+        ->get();
 
     return view('UsersKita.riwayat', [
         'transaksi' => $transaksi,
@@ -64,7 +86,7 @@ Route::get('/home', function (Request $request) {
         }
     }
 
-    $menus = $query->get()->map(function($m){
+    $menus = $query->paginate(10)->withQueryString()->through(function($m){
         $imagePath = $m->gambar ? 'barang/'.basename($m->gambar) : null;
         $imageUrl = $imagePath && Storage::disk('public')->exists($imagePath)
             ? asset('storage/'.$imagePath)
@@ -78,7 +100,7 @@ Route::get('/home', function (Request $request) {
             'image' => $imageUrl,
             'kategori_id' => $m->kategori_id,
         ];
-    })->all();
+    });
 
     $kategoris = Kategori::all()->map(function($k){
         return ['id' => $k->id, 'nama' => $k->nama_kategori];

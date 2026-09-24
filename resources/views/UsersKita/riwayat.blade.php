@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Riwayat Pesanan</title>
+    <title>Status Pesanan</title>
 
     <style>
         :root {
@@ -178,11 +178,15 @@
         .order-card {
             width: 100%;
             min-height: 180px;
-            padding: 28px;
+            padding: 18px 28px 22px;
             border-radius: 18px;
             background: #fff;
             box-shadow: 0 6px 18px #0000000f;
             transition: background .3s ease;
+        }
+
+        .order-card + .order-card {
+            margin-top: 18px;
         }
 
         .order-card.gray {
@@ -232,11 +236,91 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
             color: #333;
             font-size: 14px;
             font-weight: 600;
             gap: 20px;
+        }
+
+        .order-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .order-status {
+            color: var(--maroon);
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .order-items {
+            margin: 12px 0 8px;
+        }
+
+        .product-row {
+            display: grid;
+            grid-template-columns: 54px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 0;
+        }
+
+        .product-row.hidden-item {
+            display: none;
+        }
+
+        .product-image {
+            width: 54px;
+            height: 54px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #eee;
+        }
+
+        .product-name {
+            color: var(--maroon);
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.25;
+        }
+
+        .product-quantity {
+            display: block;
+            margin-top: 2px;
+            color: var(--maroon);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .product-price {
+            color: var(--maroon);
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .toggle-items {
+            padding: 0;
+            border: 0;
+            color: var(--maroon-soft);
+            background: transparent;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .toggle-items .arrow {
+            display: inline-block;
+            margin-left: 3px;
+            transition: transform .2s ease;
+        }
+
+        .toggle-items[aria-expanded="true"] .arrow {
+            transform: rotate(180deg);
         }
 
         hr {
@@ -324,22 +408,20 @@
             text-align: center;
         }
 
-        /* -------------------------
-           TABLET
-        ------------------------- */
+          .order-summary {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: 20px;
+          }
+
+          /* -------------------------
+              TABLET
+          ------------------------- */
 
         @media (max-width: 700px) {
             header {
                 padding: 20px;
-            }
-
-            .stepper {
-                padding-left: 16px;
-                padding-right: 16px;
-            }
-
-            .line {
-                min-width: 30px;
             }
 
             .card-wrap {
@@ -368,34 +450,6 @@
                 font-size: 21px;
             }
 
-            .stepper {
-                padding: 34px 10px 22px;
-            }
-
-            .step {
-                width: 55px;
-            }
-
-            .icon {
-                width: 38px;
-                height: 38px;
-            }
-
-            .icon svg {
-                width: 18px;
-                height: 18px;
-            }
-
-            .label {
-                font-size: 10px;
-            }
-
-            .line {
-                min-width: 20px;
-                height: 3px;
-                margin-top: 18px;
-            }
-
             .card-wrap {
                 padding: 8px 12px 28px;
             }
@@ -411,12 +465,13 @@
                 word-break: break-word;
             }
 
-            .item-row {
-                font-size: 13px;
+            .order-heading {
+                gap: 8px;
             }
 
-            .bottom {
-                align-items: flex-end;
+            .product-row {
+                grid-template-columns: 54px minmax(0, 1fr) auto;
+                gap: 10px;
             }
 
             .btn {
@@ -430,38 +485,11 @@
         ------------------------- */
 
         @media (max-width: 380px) {
-            .stepper {
-                padding-left: 5px;
-                padding-right: 5px;
-            }
-
-            .step {
-                width: 48px;
-            }
-
-            .icon {
-                width: 35px;
-                height: 35px;
-            }
-
-            .icon svg {
-                width: 17px;
-                height: 17px;
-            }
-
-            .label {
-                font-size: 9px;
-            }
-
-            .line {
-                min-width: 15px;
-            }
-
             .order-card {
                 padding: 20px 15px;
             }
 
-            .bottom {
+            .order-summary {
                 flex-direction: column;
                 align-items: stretch;
             }
@@ -482,155 +510,92 @@
             <h1>Riwayat Pesanan</h1>
         </header>
 
-        <!-- STEPPER: DIPROSES → SELESAI -->
-        <div class="stepper">
-
-            <!-- Step 1: Diproses -->
-            <div class="step" data-step="0">
-                <div class="icon">
-                    <!-- Panci -->
-                    <svg viewBox="0 0 24 24"
-                         fill="none"
-                         stroke="currentColor"
-                         stroke-width="2"
-                         stroke-linecap="round"
-                         stroke-linejoin="round">
-                        <line x1="9" y1="4.5" x2="9" y2="7"/>
-                        <line x1="12" y1="3.5" x2="12" y2="7"/>
-                        <line x1="15" y1="4.5" x2="15" y2="7"/>
-                        <path d="M4 10.5h16"/>
-                        <path d="M3 9.5a1 1 0 0 1 1-1h1v2H4a1 1 0 0 1-1-1z"/>
-                        <path d="M21 9.5a1 1 0 0 0-1-1h-1v2h1a1 1 0 0 0 1-1z"/>
-                        <path d="M5.5 10.5v2a6.5 6.5 0 0 0 13 0v-2"/>
-                    </svg>
-                </div>
-
-                <div class="label">Diproses</div>
-            </div>
-
-            <div class="line" data-line="0"></div>
-
-            <!-- Step 2: Selesai -->
-            <div class="step" data-step="1">
-                <div class="icon">
-                    <!-- Centang -->
-                    <svg viewBox="0 0 24 24"
-                         fill="none"
-                         stroke="currentColor"
-                         stroke-width="3"
-                         stroke-linecap="round"
-                         stroke-linejoin="round">
-                        <path d="M20 6L9 17l-5-5"/>
-                    </svg>
-                </div>
-
-                <div class="label">Selesai</div>
-            </div>
-
-        </div>
-
         <div class="card-wrap">
 
-            <div class="order-card" id="orderCard">
+            @forelse($transaksi as $order)
+            <div class="order-card" id="order-card-{{ $order->id }}">
 
-                @if($transaksi)
-
-                    <h2>
-                        Pesanan No.{{ $transaksi->kode_transaksi }}
-                    </h2>
-
-                    <div class="sub">
-                        {{ \Carbon\Carbon::parse($transaksi->tanggal)->translatedFormat('d F Y') }}
-                    </div>
-
-                    <div class="item-row">
-                        <span>Total Pesanan</span>
-
-                        <span>
-                            Rp {{ number_format($transaksi->total, 0, ',', '.') }}
+                    <div class="order-heading">
+                        <div>
+                            <h2>Pesanan No.{{ $order->kode_transaksi }}</h2>
+                            <div class="sub">
+                                Cravecourt, {{ \Carbon\Carbon::parse($order->tanggal)->translatedFormat('d F Y') }}
+                            </div>
+                        </div>
+                        <span class="order-status" data-order-status="{{ $order->id }}">
+                            {{ $order->status === 'selesai' ? 'Pesanan Selesai' : 'Pesanan Diproses' }}
                         </span>
                     </div>
 
-                    <hr>
+                    @php
+                        $details = $order->details;
+                        $visibleDetail = $details->first();
+                    @endphp
 
-                    <div class="bottom">
-
-                        <div>
-                            <div class="subtotal-label">
-                                Subtotal:
-                            </div>
-
-                            <div class="subtotal-value">
-                                Rp {{ number_format($transaksi->total, 0, ',', '.') }}
-                            </div>
+                    @if($visibleDetail)
+                        <div class="order-items" id="order-items-{{ $order->id }}">
+                            @foreach($details as $index => $detail)
+                                @php
+                                    $imagePath = $detail->barang?->gambar ? 'barang/'.basename($detail->barang->gambar) : null;
+                                    $imageUrl = $imagePath && \Illuminate\Support\Facades\Storage::disk('public')->exists($imagePath)
+                                        ? asset('storage/'.$imagePath)
+                                        : asset('assets/images/samples/banana.jpg');
+                                @endphp
+                                <div class="product-row {{ $index > 0 ? 'hidden-item' : '' }}" data-product-row>
+                                    <img class="product-image" src="{{ $imageUrl }}" alt="{{ $detail->barang?->nama ?? 'Produk' }}">
+                                    <div>
+                                        <div class="product-name">{{ $detail->barang?->nama ?? 'Produk' }}</div>
+                                        <span class="product-quantity">{{ $detail->jumlah }}x</span>
+                                    </div>
+                                    <span class="product-price">Rp. {{ number_format($detail->subtotal, 0, ',', '.') }}</span>
+                                </div>
+                            @endforeach
                         </div>
 
-                        <a
-                            class="btn"
-                            href="{{ route('riwayat.pesanan.detail', $transaksi) }}"
-                        >
-                            Lihat Detail
-                        </a>
+                        @if($details->count() > 1)
+                            <button type="button" class="toggle-items" aria-expanded="false" aria-controls="order-items-{{ $order->id }}">
+                                <span class="toggle-label">Tampilkan lainnya</span><span class="arrow">⌄</span>
+                            </button>
+                        @endif
+                    @endif
 
+                    <hr>
+
+                    <div class="order-summary">
+                        <div>
+                            <div class="subtotal-label">Total:</div>
+                            <div class="subtotal-value">Rp. {{ number_format($order->total, 0, ',', '.') }}</div>
+                        </div>
+                        <a class="btn" href="{{ route('riwayat.pesanan.detail', $order) }}">Lihat Detail</a>
                     </div>
-
-                @else
-
-                    <div class="empty">
-                        Belum ada riwayat pesanan.
-                    </div>
-
-                @endif
 
             </div>
+            @empty
+                <div class="order-card"><div class="empty">Belum ada pesanan.</div></div>
+            @endforelse
 
         </div>
 
     </div>
 
-    @if($transaksi)
-
     <script>
-        const orderId = @json($transaksi->id);
+        document.querySelectorAll('.toggle-items').forEach((button) => {
+            button.addEventListener('click', () => {
+                const expanded = button.getAttribute('aria-expanded') === 'true';
+                const container = document.getElementById(button.getAttribute('aria-controls'));
 
-        // Hanya ada 2 status:
-        // 0 = diproses
-        // 1 = selesai
-        const ORDER = ['diproses', 'selesai'];
+                container.querySelectorAll('[data-product-row]').forEach((row, index) => {
+                    if (index > 0) {
+                        row.classList.toggle('hidden-item', expanded);
+                    }
+                });
 
-        function setOrderStatus(status) {
-            // Kalau status lama masih "diambil",
-            // tampilkan sebagai diproses.
-            if (status === 'diambil') {
-                status = 'diproses';
-            }
-
-            const idx = ORDER.indexOf(status);
-
-            if (idx < 0) {
-                return;
-            }
-
-            // Hanya step yang sedang aktif yang berwarna merah.
-            document.querySelectorAll('.step').forEach((step, i) => {
-                step.classList.toggle('active', i === idx);
+                button.setAttribute('aria-expanded', String(!expanded));
+                button.querySelector('.toggle-label').textContent = expanded ? 'Tampilkan lainnya' : 'Sembunyikan lainnya';
             });
+        });
 
-            // Garis aktif setelah mencapai step berikutnya.
-            document.querySelectorAll('.line').forEach((line, i) => {
-                line.classList.toggle('active', i < idx);
-            });
-
-            const card = document.getElementById('orderCard');
-
-            card.classList.remove('gray', 'green');
-
-            if (status === 'selesai') {
-                card.classList.add('green');
-            }
-        }
-
-        function loadOrderStatus() {
+        function loadOrderStatus(orderId) {
             return fetch(`/transaksi/${orderId}/status`, {
                 headers: {
                     Accept: 'application/json'
@@ -644,18 +609,19 @@
                 return response.json();
             })
             .then(data => {
-                setOrderStatus(data.status);
+                const status = data.status === 'selesai' ? 'Pesanan Selesai' : 'Pesanan Diproses';
+                const statusElement = document.querySelector(`[data-order-status="${orderId}"]`);
+                if (statusElement) statusElement.textContent = status;
             });
         }
 
-        loadOrderStatus().catch(() => {});
+        const orderIds = @json($transaksi->pluck('id')->values());
+        orderIds.forEach((orderId) => loadOrderStatus(orderId).catch(() => {}));
 
         setInterval(() => {
-            loadOrderStatus().catch(() => {});
+            orderIds.forEach((orderId) => loadOrderStatus(orderId).catch(() => {}));
         }, 5000);
     </script>
-
-    @endif
 
 </body>
 </html>

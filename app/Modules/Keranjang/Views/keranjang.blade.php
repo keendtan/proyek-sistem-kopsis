@@ -745,7 +745,7 @@
             if (!response.ok) throw new Error(result.message || 'Checkout gagal.');
 
             localStorage.removeItem(CART_KEY);
-            window.location.href = "{{ route('riwayat.pesanan') }}";
+            window.location.href = "{{ url('/status-pesanan') }}/" + result.transaksi_id;
         } catch (error) {
             alert(error.message);
             checkoutButton.disabled = false;
