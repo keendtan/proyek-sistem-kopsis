@@ -6,6 +6,8 @@
     <title>Menu Makanan</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
         :root {
             --maroon: #8c2b2b;
             --maroon-dark: #6e1f1f;
