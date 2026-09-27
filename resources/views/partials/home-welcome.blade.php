@@ -1,13 +1,9 @@
 <script>
     (function () {
         try {
-            var referrerUrl = document.referrer ? new URL(document.referrer) : null;
-            var returnedFromHome = referrerUrl
-                && referrerUrl.origin === window.location.origin
-                && (referrerUrl.pathname === '/home' || referrerUrl.pathname === '/');
             var welcomeWasShown = sessionStorage.getItem('cravecourt_home_welcome') === '1';
 
-            if (welcomeWasShown && returnedFromHome) {
+            if (welcomeWasShown) {
                 document.documentElement.classList.add('home-welcome-seen');
                 return;
             }
@@ -97,9 +93,35 @@
         box-shadow: inset 0 0 0 5px rgba(92,10,14,.38), 0 8px 25px rgba(0,0,0,.3);
         animation: home-medallion-drop .95s 1.3s cubic-bezier(.22,1,.36,1) both, home-medallion-sway 4.2s 2.35s ease-in-out infinite;
         transform-origin: 50% 0;
+        will-change: transform, opacity;
     }
 
     #home-welcome .welcome-medallion img { display: block; width: 72%; height: auto; }
+
+    #home-logo-travel {
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 12000;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 25%, rgba(255,255,255,.34), rgba(233,200,119,.18) 42%, rgba(48,5,9,.45));
+        border: 2px solid rgba(233,200,119,.7);
+        box-shadow: inset 0 0 0 4px rgba(92,10,14,.38), 0 10px 26px rgba(0,0,0,.26);
+        pointer-events: none;
+        opacity: 0;
+        transform: translate3d(0, 0, 0) scale(1);
+        transition: transform 1.05s cubic-bezier(.22,1,.36,1), opacity .4s ease, filter .4s ease;
+        filter: drop-shadow(0 10px 18px rgba(0,0,0,.22));
+        will-change: transform, opacity;
+    }
+
+    #home-logo-travel img {
+        width: 72%;
+        height: auto;
+        display: block;
+    }
     #home-welcome .welcome-kicker { margin: 0 0 8px; color: #f3d894; font: 500 11px/1.4 'Jost', sans-serif; letter-spacing: .24em; text-transform: uppercase; animation: home-rise .7s 2.12s both; }
     #home-welcome .welcome-title { margin: 0; color: #fff8ea; font: 600 clamp(31px, 5vw, 56px)/1.08 'Playfair Display', Georgia, serif; letter-spacing: 0; animation: home-rise .8s 2.26s both; text-wrap: balance; }
     #home-welcome .welcome-tagline { margin: 9px 0 0; color: #f5d9d1; font: italic 400 clamp(17px, 2.3vw, 23px)/1.2 'Cormorant Garamond', Georgia, serif; animation: home-rise .8s 2.42s both; }
@@ -225,18 +247,37 @@
 
             var logo = document.querySelector('.logo-badge');
             var medallion = intro.querySelector('.welcome-medallion');
-            if (logo) {
+            if (logo && medallion) {
                 var rect = logo.getBoundingClientRect();
                 var targetX = rect.left + rect.width / 2;
                 var targetY = rect.top + rect.height / 2;
                 intro.style.setProperty('--welcome-target-x', (targetX - window.innerWidth / 2) + 'px');
                 intro.style.setProperty('--welcome-target-y', (targetY - window.innerHeight / 2) + 'px');
 
-                if (medallion) {
-                    var medallionRect = medallion.getBoundingClientRect();
-                    intro.style.setProperty('--welcome-medallion-x', (targetX - medallionRect.left - medallionRect.width / 2) + 'px');
-                    intro.style.setProperty('--welcome-medallion-y', (targetY - medallionRect.top - medallionRect.height / 2) + 'px');
-                }
+                var medallionRect = medallion.getBoundingClientRect();
+                intro.style.setProperty('--welcome-medallion-x', (targetX - medallionRect.left - medallionRect.width / 2) + 'px');
+                intro.style.setProperty('--welcome-medallion-y', (targetY - medallionRect.top - medallionRect.height / 2) + 'px');
+
+                var travel = document.createElement('div');
+                travel.id = 'home-logo-travel';
+                travel.innerHTML = '<img src="{{ asset('assets/images/logo-mark.png') }}" alt="Cravecourt" />';
+                travel.style.width = medallionRect.width + 'px';
+                travel.style.height = medallionRect.height + 'px';
+                travel.style.left = medallionRect.left + 'px';
+                travel.style.top = medallionRect.top + 'px';
+                document.body.appendChild(travel);
+
+                requestAnimationFrame(function () {
+                    var deltaX = rect.left + rect.width / 2 - (medallionRect.left + medallionRect.width / 2);
+                    var deltaY = rect.top + rect.height / 2 - (medallionRect.top + medallionRect.height / 2);
+                    travel.style.opacity = '1';
+                    travel.style.transform = 'translate3d(' + deltaX + 'px, ' + deltaY + 'px, 0) scale(.38)';
+                    travel.style.filter = 'blur(.25px)';
+                });
+
+                window.setTimeout(function () {
+                    travel.remove();
+                }, 1050);
             }
 
             document.documentElement.classList.add('home-welcome-exiting');
