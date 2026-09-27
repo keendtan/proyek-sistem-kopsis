@@ -56,8 +56,9 @@
             opacity: 1;
 
             transition:
-                opacity 1.2s ease,
-                transform 1.2s ease;
+                opacity 1.05s cubic-bezier(.22, 1, .36, 1),
+                transform 1.05s cubic-bezier(.22, 1, .36, 1),
+                filter 1.05s ease;
         }
 
 
@@ -68,7 +69,8 @@
         .splash.leaving {
             opacity: 0;
 
-            transform: scale(1.015);
+            transform: scale(1.035);
+            filter: blur(4px);
 
             pointer-events: none;
         }
@@ -443,14 +445,16 @@
 
         .brand-name {
             margin-top: 4px;
+            max-width: 92vw;
 
             color: #8b1e28;
 
-            font-size: 40px;
+            font-size: clamp(27px, 7vw, 40px);
+            line-height: 1.15;
 
             font-weight: 800;
 
-            letter-spacing: -1.5px;
+            letter-spacing: 0;
 
             opacity: 0;
 
@@ -528,7 +532,7 @@
             background: #9d3039;
 
             animation:
-                loadingProgress 3.2s
+                loadingProgress 1.7s
                 cubic-bezier(0.65,0,0.35,1)
                 1.7s forwards;
         }
@@ -932,33 +936,28 @@
     </div>
 
 
-    <!-- =====================================================
-         PINDAH KE LOGIN
+        <!-- =====================================================
+            PINDAH KE LOGIN
     ====================================================== -->
 
     <script>
 
-        setTimeout(function () {
+        const splashDuration = 3600;
+        const transitionDuration = 1050;
+        const destination = "{{ route('userkita.login') }}";
 
+        function enterApp() {
             const splash = document.getElementById('splash');
+            if (!splash) return;
 
-            /*
-             * Mulai fade out.
-             */
             splash.classList.add('leaving');
 
-
-            /*
-             * Tunggu fade selesai,
-             * baru pindah ke login.
-             */
             setTimeout(function () {
+                window.location.assign(destination);
+            }, transitionDuration);
+        }
 
-                window.location.href = "{{ route('userkita.login') }}";
-
-            }, 1200);
-
-        }, 5000);
+        window.setTimeout(enterApp, splashDuration);
 
     </script>
 

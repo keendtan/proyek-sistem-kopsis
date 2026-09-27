@@ -332,6 +332,8 @@
     </style>
 </head>
 <body>
+    @include('partials.home-welcome')
+
     @php
         $selected = $selectedKategori ?? 'all';
         $categoryUrl = function ($category) {
