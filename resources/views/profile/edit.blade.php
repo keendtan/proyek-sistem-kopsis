@@ -12,9 +12,15 @@
         .cravecourt-profile-fields { width: 100%; display: flex; flex-direction: column; gap: 20px; }
         @media (max-width: 760px) { .cravecourt-profile-layout { grid-template-columns: 1fr; row-gap: 40px; } }
 
+        html, body {
+            zoom: 1;
+            overflow-x: hidden;
+        }
+
         body {
             background: #f4f3f1;
             font-family: 'Poppins', 'Segoe UI', sans-serif;
+            transform: none;
         }
     </style>
 </head>

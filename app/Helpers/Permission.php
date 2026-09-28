@@ -12,18 +12,27 @@ class Permission
 {
 	public static function can($route)
 	{
-		if(empty($route)) return true;
+		if (empty($route)) return true;
 
 		$elm = explode('.', $route);
 		$menu = reset($elm);
 		$action = end($elm);
 
-		$exceptions = config('laralag.module_exception');
-		if(in_array($menu, $exceptions)) return true;
+		$exceptions = config('laralag.module_exception', []);
+		if (in_array($menu, $exceptions, true)) return true;
 
 		$action = config('laralag.translate_action')[$action] ?? null;
 		$privileges = session('privileges');
-		return $privileges[$menu][$action] ?? true;
+
+		if (!is_array($privileges) || !isset($privileges[$menu])) {
+			return true;
+		}
+
+		if ($action === null || !isset($privileges[$menu][$action])) {
+			return true;
+		}
+
+		return (bool) $privileges[$menu][$action];
 	}
 
 	public static function getMenu($id_role)
