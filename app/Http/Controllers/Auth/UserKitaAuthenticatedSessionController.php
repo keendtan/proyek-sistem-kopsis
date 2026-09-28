@@ -55,6 +55,6 @@ class UserKitaAuthenticatedSessionController extends Controller
         RateLimiter::clear($throttleKey);
         $request->session()->regenerate();
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('show_home_welcome', true);
     }
 }

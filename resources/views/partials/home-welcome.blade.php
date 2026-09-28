@@ -1,20 +1,5 @@
 <script>
-    (function () {
-        try {
-            var referrerUrl = document.referrer ? new URL(document.referrer) : null;
-            var returnedFromHome = referrerUrl
-                && referrerUrl.origin === window.location.origin
-                && (referrerUrl.pathname === '/home' || referrerUrl.pathname === '/');
-            var welcomeWasShown = sessionStorage.getItem('cravecourt_home_welcome') === '1';
-
-            if (welcomeWasShown && returnedFromHome) {
-                document.documentElement.classList.add('home-welcome-seen');
-                return;
-            }
-        } catch (error) {}
-
-        document.documentElement.classList.add('home-welcome-active');
-    })();
+    document.documentElement.classList.add('home-welcome-active');
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -126,7 +111,6 @@
     #home-welcome.is-leaving .welcome-note,
     #home-welcome.is-leaving .welcome-progress,
     #home-welcome.is-leaving .welcome-button { opacity: 0; transform: translateY(-8px); transition: opacity .35s ease, transform .45s ease; }
-    #home-welcome.is-leaving .welcome-medallion { transform: translate(var(--welcome-medallion-x, 0px), var(--welcome-medallion-y, 0px)) scale(.22); opacity: .55; transition: transform 1.05s cubic-bezier(.22,1,.36,1), opacity .85s ease; }
     html.home-welcome-exiting .app { visibility: visible; opacity: 1; transform: none; transition: opacity .8s .38s ease, transform .8s .38s cubic-bezier(.16,1,.3,1); }
     html.home-welcome-exiting .logo-badge { box-shadow: 0 0 0 4px rgba(233,200,119,.5), 0 0 24px rgba(233,200,119,.75); transition: box-shadow .8s ease; }
 
@@ -221,21 +205,33 @@
             if (finished) return;
             finished = true;
             window.clearTimeout(timer);
-            try { sessionStorage.setItem('cravecourt_home_welcome', '1'); } catch (error) {}
 
             var logo = document.querySelector('.logo-badge');
             var medallion = intro.querySelector('.welcome-medallion');
             if (logo) {
-                var rect = logo.getBoundingClientRect();
-                var targetX = rect.left + rect.width / 2;
-                var targetY = rect.top + rect.height / 2;
+                var targetRect = logo.getBoundingClientRect();
+                var targetX = targetRect.left + targetRect.width / 2;
+                var targetY = targetRect.top + targetRect.height / 2;
                 intro.style.setProperty('--welcome-target-x', (targetX - window.innerWidth / 2) + 'px');
                 intro.style.setProperty('--welcome-target-y', (targetY - window.innerHeight / 2) + 'px');
 
-                if (medallion) {
+                if (medallion && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                     var medallionRect = medallion.getBoundingClientRect();
-                    intro.style.setProperty('--welcome-medallion-x', (targetX - medallionRect.left - medallionRect.width / 2) + 'px');
-                    intro.style.setProperty('--welcome-medallion-y', (targetY - medallionRect.top - medallionRect.height / 2) + 'px');
+                    var deltaX = targetX - (medallionRect.left + medallionRect.width / 2);
+                    var deltaY = targetY - (medallionRect.top + medallionRect.height / 2);
+                    var scaleX = targetRect.width / medallionRect.width;
+                    var scaleY = targetRect.height / medallionRect.height;
+
+                    medallion.getAnimations().forEach(function (animation) { animation.cancel(); });
+                    medallion.style.animation = 'none';
+                    medallion.animate([
+                        { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                        { transform: 'translate(' + deltaX + 'px, ' + deltaY + 'px) scale(' + scaleX + ', ' + scaleY + ')', opacity: 1 }
+                    ], {
+                        duration: 1050,
+                        easing: 'cubic-bezier(.22,1,.36,1)',
+                        fill: 'forwards'
+                    });
                 }
             }
 

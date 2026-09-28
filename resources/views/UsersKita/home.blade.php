@@ -332,7 +332,9 @@
     </style>
 </head>
 <body>
-    @include('partials.home-welcome')
+    @if(session('show_home_welcome'))
+        @include('partials.home-welcome')
+    @endif
 
     @php
         $selected = $selectedKategori ?? 'all';
